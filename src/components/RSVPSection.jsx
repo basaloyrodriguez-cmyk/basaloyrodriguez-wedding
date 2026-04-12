@@ -22,7 +22,9 @@ const STEP = {
 export function RSVPSection({ guest, companions }) {
   const [step, setStep] = useState(STEP.PROMPT);
   const [attending, setAttending] = useState(null); // true | false
-  const [selectedCompanions, setSelectedCompanions] = useState([]); // ids of companions also attending
+  const [selectedCompanions, setSelectedCompanions] = useState(() => 
+    companions.filter(c => c.asistira === true).map(c => c.id)
+  ); // ids of companions also attending
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -72,6 +74,43 @@ export function RSVPSection({ guest, companions }) {
             .eq('id', companion.id)
         );
         await Promise.all(updates);
+      }
+
+      // 3. Send confirmation emails via Resend
+      if (attending) {
+        const attendeesToEmail = [];
+        
+        if (guest.correo) {
+          attendeesToEmail.push({ nombre: guest.nombre.split(' ')[0], correo: guest.correo });
+        }
+
+        if (hasCompanions) {
+          companions.forEach(c => {
+            if (selectedCompanions.includes(c.id) && c.correo) {
+              attendeesToEmail.push({ nombre: c.nombre.split(' ')[0], correo: c.correo });
+            }
+          });
+        }
+
+        const emailPromises = attendeesToEmail.map(person => 
+          fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: person.correo,
+              firstName: person.nombre
+            })
+          })
+          .then(async response => {
+             if (!response.ok) {
+               const errorData = await response.json();
+               console.error('Error desde API de Resend:', errorData);
+             }
+          })
+          .catch(err => console.error('Excepción llamando a /api/send-email:', err))
+        );
+
+        await Promise.all(emailPromises);
       }
 
       setStep(STEP.SUCCESS);
@@ -135,6 +174,10 @@ export function RSVPSection({ guest, companions }) {
               <div className="rsvp-companions">
                 {companions.map((c) => {
                   const checked = selectedCompanions.includes(c.id);
+                  let statusText = '';
+                  if (c.asistira === true) statusText = ' (Ya confirmado)';
+                  else if (c.asistira === false) statusText = ' (Rechazado)';
+                  
                   return (
                     <button
                       key={c.id}
@@ -143,7 +186,10 @@ export function RSVPSection({ guest, companions }) {
                       className={`companion-chip ${checked ? 'companion-chip--active' : ''}`}
                     >
                       <span className="companion-check">{checked ? '✓' : '+'}</span>
-                      {c.nombre} {c.apellido}
+                      <span className="companion-name">
+                        {c.nombre} {c.apellido}
+                        <span className="companion-status">{statusText}</span>
+                      </span>
                     </button>
                   );
                 })}

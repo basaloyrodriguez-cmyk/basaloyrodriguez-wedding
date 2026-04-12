@@ -877,6 +877,23 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   font-weight: 600;
 }
 
+.companion-name {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.companion-status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--clr-text-faint);
+  font-style: italic;
+}
+
+.companion-chip--active .companion-status {
+  color: var(--clr-rose-dark);
+}
+
 .companion-check {
   width: 1.5rem; height: 1.5rem;
   border-radius: 50%;

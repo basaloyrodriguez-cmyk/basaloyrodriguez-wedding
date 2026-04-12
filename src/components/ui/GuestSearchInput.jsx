@@ -15,9 +15,15 @@ export function GuestSearchInput({ onSelect, disabled = false }) {
   const [activeIdx, setActiveIdx]       = useState(-1); // keyboard navigation
   const inputRef  = useRef(null);
   const listRef   = useRef(null);
+  const skipNextSearch = useRef(false);
 
   // ── Search effect with debounce ────────────────────────────────────────
   useEffect(() => {
+    if (skipNextSearch.current) {
+      skipNextSearch.current = false;
+      return;
+    }
+
     if (query.trim().length < 2) {
       setResults([]);
       setShowDropdown(false);
@@ -44,6 +50,7 @@ export function GuestSearchInput({ onSelect, disabled = false }) {
 
   // ── Handlers ───────────────────────────────────────────────────────────
   const handleSelect = (guest) => {
+    skipNextSearch.current = true;
     setQuery(`${guest.nombre} ${guest.apellido}`);
     setShowDropdown(false);
     setResults([]);
