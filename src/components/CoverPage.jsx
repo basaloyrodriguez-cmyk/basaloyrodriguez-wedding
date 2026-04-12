@@ -51,7 +51,25 @@ export function CoverPage({ onEnter }) {
         companions = companionData ?? [];
       }
 
-      onEnter(selectedGuest, companions);
+      // Fetch special roles/messages
+      let specialMessage = null;
+      const { data: guestRoles } = await supabase
+        .from('invitado_roles')
+        .select('rol_id')
+        .eq('invitado_id', selectedGuest.id);
+
+      if (guestRoles && guestRoles.length > 0) {
+        const { data: messages } = await supabase
+          .from('mensajes_rol')
+          .select('*')
+          .in('rol_id', guestRoles.map((r) => r.rol_id));
+        
+        if (messages && messages.length > 0) {
+          specialMessage = messages[0];
+        }
+      }
+
+      onEnter(selectedGuest, companions, specialMessage);
     } catch (err) {
       console.error('Error abriendo invitación:', err);
       setError('Hubo un problema de conexión. Por favor intenta de nuevo.');
