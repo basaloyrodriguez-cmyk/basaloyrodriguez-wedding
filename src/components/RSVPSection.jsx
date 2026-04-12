@@ -76,38 +76,44 @@ export function RSVPSection({ guest, companions }) {
         await Promise.all(updates);
       }
 
-      // 3. Send confirmation emails via Resend
+      // 3. Send confirmation emails via Supabase Edge Function
       if (attending) {
         const attendeesToEmail = [];
         
         if (guest.correo) {
-          attendeesToEmail.push({ nombre: guest.nombre.split(' ')[0], correo: guest.correo });
+          attendeesToEmail.push({ 
+            id: guest.id, 
+            nombre: guest.nombre.split(' ')[0], 
+            correo: guest.correo 
+          });
         }
 
         if (hasCompanions) {
           companions.forEach(c => {
             if (selectedCompanions.includes(c.id) && c.correo) {
-              attendeesToEmail.push({ nombre: c.nombre.split(' ')[0], correo: c.correo });
+              attendeesToEmail.push({ 
+                id: c.id, 
+                nombre: c.nombre.split(' ')[0], 
+                correo: c.correo 
+              });
             }
           });
         }
 
         const emailPromises = attendeesToEmail.map(person => 
-          fetch('/api/send-email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: person.correo,
-              firstName: person.nombre
-            })
+          supabase.functions.invoke('wedding-email', {
+            body: {
+              guestEmail: person.correo,
+              firstName: person.nombre,
+              guestId: person.id
+            }
           })
-          .then(async response => {
-             if (!response.ok) {
-               const errorData = await response.json();
-               console.error('Error desde API de Resend:', errorData);
-             }
+          .then(({ data, error }) => {
+            if (error) {
+              console.error('Error desde Edge Function:', error);
+            }
           })
-          .catch(err => console.error('Excepción llamando a /api/send-email:', err))
+          .catch(err => console.error('Excepción llamando a wedding-email:', err))
         );
 
         await Promise.all(emailPromises);
