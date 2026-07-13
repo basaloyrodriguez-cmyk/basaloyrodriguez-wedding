@@ -1,38 +1,27 @@
 import { useState } from 'react';
-import {
-  Mail, CheckCircle2, XCircle, Users,
-  MessageSquare, Loader2, Heart,
-} from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import { Card } from './ui/Card';
-import { Button } from './ui/Button';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Loader2 } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
-// RSVP steps
 const STEP = {
-  PROMPT: 'prompt',       // Initial yes/no question
-  FORM: 'form',           // Details form (attending or declining)
-  SUCCESS: 'success',     // Submitted confirmation
+  PROMPT: 'prompt',
+  FORM: 'form',
+  SUCCESS: 'success',
 };
 
-/**
- * RSVPSection
- * @param {Object} guest        - Row from `invitados` table
- * @param {Array}  companions   - Rows from `invitados` for linked companions
- */
 export function RSVPSection({ guest, companions }) {
   const [step, setStep] = useState(STEP.PROMPT);
-  const [attending, setAttending] = useState(null); // true | false
+  const [attending, setAttending] = useState(null);
   const [selectedCompanions, setSelectedCompanions] = useState(() => 
     companions.filter(c => c.asistira === true).map(c => c.id)
-  ); // ids of companions also attending
+  );
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const firstName = guest.nombre.split(' ')[0];
   const hasCompanions = companions.length > 0;
-
-  // ─── Handlers ────────────────────────────────────────────────────────────
 
   const handleChoice = (choice) => {
     setAttending(choice);
@@ -46,12 +35,38 @@ export function RSVPSection({ guest, companions }) {
     );
   };
 
+  const triggerConfetti = () => {
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ['#022f63', '#445a43', '#e6f2f7', '#b0c074']
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ['#022f63', '#445a43', '#e6f2f7', '#b0c074']
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
+  };
+
   const handleSubmit = async () => {
     setIsSubmitting(true);
     setError('');
 
     try {
-      // 1. Update the primary guest's attendance
       const { error: guestError } = await supabase
         .from('invitados')
         .update({
@@ -62,7 +77,6 @@ export function RSVPSection({ guest, companions }) {
 
       if (guestError) throw guestError;
 
-      // 2. Update companions: attending ones = true, rest = false (if they were pre-listed)
       if (hasCompanions && attending) {
         const updates = companions.map((companion) =>
           supabase
@@ -76,195 +90,219 @@ export function RSVPSection({ guest, companions }) {
         await Promise.all(updates);
       }
 
-      // 3. Send confirmation emails via Supabase Edge Function
       if (attending) {
         const attendeesToEmail = [];
         
         if (guest.correo) {
-          attendeesToEmail.push({ 
-            id: guest.id, 
-            nombre: guest.nombre.split(' ')[0], 
-            correo: guest.correo 
-          });
+          attendeesToEmail.push({ id: guest.id, nombre: guest.nombre.split(' ')[0], correo: guest.correo });
         }
 
         if (hasCompanions) {
           companions.forEach(c => {
             if (selectedCompanions.includes(c.id) && c.correo) {
-              attendeesToEmail.push({ 
-                id: c.id, 
-                nombre: c.nombre.split(' ')[0], 
-                correo: c.correo 
-              });
+              attendeesToEmail.push({ id: c.id, nombre: c.nombre.split(' ')[0], correo: c.correo });
             }
           });
         }
 
         const emailPromises = attendeesToEmail.map(person => 
           supabase.functions.invoke('wedding-email', {
-            body: {
-              guestEmail: person.correo,
-              firstName: person.nombre,
-              guestId: person.id
-            }
-          })
-          .then(({ data, error }) => {
-            if (error) {
-              console.error('Error desde Edge Function:', error);
-            }
-          })
-          .catch(err => console.error('Excepción llamando a wedding-email:', err))
+            body: { guestEmail: person.correo, firstName: person.nombre, guestId: person.id }
+          }).catch(err => console.error('Error invoking wedding-email:', err))
         );
 
         await Promise.all(emailPromises);
+        
+        // Trigger confetti ONLY if attending
+        triggerConfetti();
       }
 
       setStep(STEP.SUCCESS);
     } catch (err) {
-      console.error('Error enviando RSVP:', err);
-      setError('Hubo un problema al enviar tu confirmación. Por favor intenta de nuevo.');
+      console.error('Error RSVP:', err);
+      setError('Hubo un problema al enviar tu confirmación. Intenta de nuevo.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // ─── Render ───────────────────────────────────────────────────────────────
-
-  if (step === STEP.SUCCESS) {
-    return (
-      <Card id="rsvp-section" className="rsvp-card animate-fade-in">
-        <div className="rsvp-success">
-          <div className="rsvp-success-icon">
-            <CheckCircle2 size={40} />
-          </div>
-          <h3 className="rsvp-success-title">
-            {attending ? '¡Qué emoción, nos vemos allá!' : 'Gracias por avisarnos'}
-          </h3>
-          <p className="rsvp-success-msg">
-            {attending
-              ? `¡Hemos registrado tu asistencia${selectedCompanions.length > 0 ? ` y la de tus acompañantes` : ''}, ${firstName}! No puedo esperar a celebrar juntos. 🎉`
-              : `Lo sentimos mucho, ${firstName}. ¡Los tendremos en mente ese día de todas formas! 💛`}
-          </p>
-          {message.trim() && (
-            <div className="rsvp-success-quote">
-              <p>"{message}"</p>
-            </div>
-          )}
-        </div>
-      </Card>
-    );
-  }
-
-  if (step === STEP.FORM) {
-    return (
-      <Card id="rsvp-section" className="rsvp-card animate-slide-up">
-        <button className="rsvp-back" onClick={() => setStep(STEP.PROMPT)}>
-          ← Volver
-        </button>
-
-        <h3 className="section-title">
-          {attending ? '¡Genial! Completa tu registro' : 'Lo sentimos mucho'}
-        </h3>
-
-        <div className="rsvp-form-body">
-          {/* Companion selection — only when attending and companions exist */}
-          {attending && hasCompanions && (
-            <div className="rsvp-field">
-              <label className="rsvp-label">
-                <Users size={15} />
-                ¿Quiénes de tu grupo también asistirán?
-              </label>
-              <p className="rsvp-field-hint">
-                Puedes confirmar por toda tu mesa en un solo paso.
-              </p>
-              <div className="rsvp-companions">
-                {companions.map((c) => {
-                  const checked = selectedCompanions.includes(c.id);
-                  let statusText = '';
-                  if (c.asistira === true) statusText = ' (Ya confirmado)';
-                  else if (c.asistira === false) statusText = ' (Rechazado)';
-                  
-                  return (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => toggleCompanion(c.id)}
-                      className={`companion-chip ${checked ? 'companion-chip--active' : ''}`}
-                    >
-                      <span className="companion-check">{checked ? '✓' : '+'}</span>
-                      <span className="companion-name">
-                        {c.nombre} {c.apellido}
-                        <span className="companion-status">{statusText}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Optional message */}
-          <div className="rsvp-field">
-            <label className="rsvp-label">
-              <MessageSquare size={15} />
-              Déjanos un mensaje <span className="rsvp-optional">(Opcional)</span>
-            </label>
-            <textarea
-              rows={3}
-              placeholder={
-                attending
-                  ? '¡Estamos muy emocionados!'
-                  : 'Les deseamos lo mejor en este día tan especial…'
-              }
-              className="input rsvp-textarea"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-          </div>
-
-          {error && <p className="rsvp-error">{error}</p>}
-
-          <Button
-            variant="primary"
-            className="btn--full btn--lg"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <Loader2 size={16} className="spin mr-2" />
-                Enviando…
-              </>
-            ) : (
-              'Confirmar Respuesta'
-            )}
-          </Button>
-        </div>
-      </Card>
-    );
-  }
-
-  // STEP.PROMPT — initial yes/no
   return (
-    <Card id="rsvp-section" className="rsvp-card">
-      <div className="rsvp-prompt">
-        <Mail className="rsvp-prompt-icon" strokeWidth={1.5} />
-        <h3 className="section-title">Confirmación de Asistencia</h3>
-        <p className="rsvp-prompt-sub">
-          Hola <strong>{guest.nombre}</strong>, ¿podrás acompañarnos?
-        </p>
+    <div id="rsvp-section" style={{ padding: '4rem 0', display: 'flex', justifyContent: 'center' }}>
+      <div className="panel" style={{ width: '100%', maxWidth: '600px', textAlign: 'center' }}>
+        <AnimatePresence mode="wait">
+          
+          {step === STEP.PROMPT && (
+            <motion.div
+              key="prompt"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className="section-title" style={{ marginBottom: '1rem' }}>RSVP</h3>
+              <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.75rem', color: 'var(--clr-navy)', marginBottom: '3rem', lineHeight: 1.2 }}>
+                Hola {firstName},<br />
+                <span className="script-accent" style={{ fontSize: '2.5rem', display: 'inline-block', marginTop: '1rem' }}>
+                  ¿Nos acompañarás en este día tan especial?
+                </span>
+              </p>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <button className="btn btn--primary" style={{ width: '100%', height: '4rem', fontSize: '1rem' }} onClick={() => handleChoice(true)}>
+                  Sí asistiré
+                </button>
+                <button className="btn btn--secondary" style={{ width: '100%', height: '4rem', fontSize: '1rem' }} onClick={() => handleChoice(false)}>
+                  No podré asistir
+                </button>
+              </div>
+            </motion.div>
+          )}
 
-        <div className="rsvp-choices">
-          <button className="rsvp-choice rsvp-choice--yes" onClick={() => handleChoice(true)}>
-            <CheckCircle2 size={20} />
-            Sí, asistiré
-          </button>
-          <button className="rsvp-choice rsvp-choice--no" onClick={() => handleChoice(false)}>
-            <XCircle size={20} />
-            No podré asistir
-          </button>
-        </div>
+          {step === STEP.FORM && (
+            <motion.div
+              key="form"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              style={{ textAlign: 'left' }}
+            >
+              <button 
+                onClick={() => setStep(STEP.PROMPT)}
+                style={{ color: 'var(--clr-text-faint)', fontSize: '0.9rem', marginBottom: '2rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}
+              >
+                ← Volver
+              </button>
+
+              <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', color: 'var(--clr-navy)', marginBottom: '2rem', textAlign: 'center' }}>
+                {attending ? 'Detalles de tu asistencia' : 'Lo sentimos mucho'}
+              </h3>
+
+              {attending && hasCompanions && (
+                <div style={{ marginBottom: '3rem' }}>
+                  <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem', marginBottom: '1.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    ¿Quiénes te acompañan?
+                  </p>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    {companions.map((c) => {
+                      const isChecked = selectedCompanions.includes(c.id);
+                      return (
+                        <div 
+                          key={c.id} 
+                          onClick={() => toggleCompanion(c.id)}
+                          style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            justifyContent: 'space-between',
+                            padding: '1rem 1.5rem',
+                            border: `1px solid ${isChecked ? 'var(--clr-navy)' : 'rgba(2, 47, 99, 0.1)'}`,
+                            borderRadius: 'var(--radius-sm)',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            background: isChecked ? 'var(--clr-light-blue)' : 'transparent'
+                          }}
+                        >
+                          <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', color: 'var(--clr-navy)' }}>
+                            {c.nombre} {c.apellido}
+                          </span>
+                          
+                          {/* Elegant Switch */}
+                          <div style={{
+                            width: '44px',
+                            height: '24px',
+                            borderRadius: '12px',
+                            background: isChecked ? 'var(--clr-navy)' : 'rgba(2, 47, 99, 0.1)',
+                            position: 'relative',
+                            transition: 'background 0.3s ease'
+                          }}>
+                            <motion.div
+                              layout
+                              transition={{ type: "spring", stiffness: 700, damping: 30 }}
+                              style={{
+                                width: '20px',
+                                height: '20px',
+                                borderRadius: '50%',
+                                background: 'var(--clr-white-pure)',
+                                position: 'absolute',
+                                top: '2px',
+                                left: isChecked ? '22px' : '2px',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                              }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              <div style={{ marginBottom: '2.5rem' }}>
+                <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Déjanos un mensaje (Opcional)
+                </p>
+                <textarea
+                  rows={3}
+                  placeholder={attending ? '¡Qué emoción celebrar con ustedes!' : 'Les mando mis mejores deseos...'}
+                  style={{
+                    width: '100%',
+                    padding: '1rem',
+                    border: '1px solid rgba(2, 47, 99, 0.2)',
+                    borderRadius: 'var(--radius-sm)',
+                    fontFamily: 'var(--font-serif)',
+                    fontSize: '1.1rem',
+                    color: 'var(--clr-navy)',
+                    outline: 'none',
+                    resize: 'none',
+                    background: 'transparent'
+                  }}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                />
+              </div>
+
+              {error && <p style={{ color: 'var(--clr-error)', marginBottom: '1.5rem', textAlign: 'center' }}>{error}</p>}
+
+              <button
+                className="btn btn--primary"
+                style={{ width: '100%' }}
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <><Loader2 size={16} className="spin mr-2" />Enviando…</>
+                ) : (
+                  'Confirmar Respuesta'
+                )}
+              </button>
+            </motion.div>
+          )}
+
+          {step === STEP.SUCCESS && (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <h3 className="script-accent" style={{ fontSize: '3.5rem', marginBottom: '1rem' }}>
+                ¡Gracias!
+              </h3>
+              <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', color: 'var(--clr-navy)', marginBottom: '2rem' }}>
+                {attending 
+                  ? 'Tu asistencia ha sido registrada.' 
+                  : 'Entendemos y te llevaremos en el corazón.'}
+              </p>
+              {message && (
+                <div style={{ padding: '2rem', borderTop: '1px solid rgba(2, 47, 99, 0.1)', borderBottom: '1px solid rgba(2, 47, 99, 0.1)' }}>
+                  <p style={{ fontFamily: 'var(--font-script)', fontSize: '1.8rem', color: 'var(--clr-olive)' }}>"{message}"</p>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+        </AnimatePresence>
       </div>
-    </Card>
+    </div>
   );
 }
