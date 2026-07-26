@@ -110,7 +110,7 @@ export function CoverPage({ onEnter }) {
             style={{ position: 'relative', zIndex: 1, textAlign: 'center', width: '100%', maxWidth: '800px' }}
           >
             <h1 className="title-hero mb-1">
-              Juan Manuel<br/>& Maria Andrea
+              Basalo<br/>& Rodriguez
             </h1>
             <p className="script-accent mb-2">Nuestra historia comienza aquí</p>
             <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', color: 'var(--clr-text-muted)', letterSpacing: '0.1em', marginBottom: '3rem' }}>
@@ -181,7 +181,7 @@ export function CoverPage({ onEnter }) {
             }}
           >
             <h2 className="title-hero" style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-              Juan Manuel<br/>& Maria Andrea
+              Basalo<br/>& Rodriguez
             </h2>
             <p className="script-accent" style={{ fontSize: '2rem', color: 'var(--clr-text-faint)' }}>Te invitan a su boda</p>
             <motion.div 

@@ -8,12 +8,15 @@ import { RSVPSection } from './components/RSVPSection';
 import { Footer } from './components/Footer';
 import { RoleModal } from './components/ui/RoleModal';
 import { BotanicalCorners, SectionSeparator } from './components/ui/Decorations';
+import { NavBar } from './components/ui/NavBar';
+import { AccommodationsModal } from './components/AccommodationsModal';
 import { motion } from 'framer-motion';
 
 export default function App() {
   const [guest, setGuest] = useState(null);
   const [companions, setCompanions] = useState([]);
   const [specialMessage, setSpecialMessage] = useState(null);
+  const [showAccommodations, setShowAccommodations] = useState(false);
 
   const handleEnter = (guestRecord, companionList, messageRecord) => {
     setGuest(guestRecord);
@@ -33,6 +36,8 @@ export default function App() {
       className="invitation-page" 
       style={{ position: 'relative', overflowX: 'hidden' }}
     >
+      <NavBar onOpenAccommodations={() => setShowAccommodations(true)} />
+
       {/* Background decorations for the scrollable view */}
       <BotanicalCorners />
 
@@ -41,7 +46,7 @@ export default function App() {
       <main className="invitation-main" style={{ maxWidth: '800px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 1 }}>
         <SectionSeparator />
         
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+        <motion.div id="historia" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} style={{ paddingTop: '5rem' }}>
           <h2 className="script-accent text-center mb-1">Nuestra Historia</h2>
           <p className="text-center" style={{ color: 'var(--clr-text-muted)', marginBottom: '2rem' }}>
             Cada paso que hemos dado nos ha traído hasta este momento.<br />
@@ -55,26 +60,37 @@ export default function App() {
         
         <SectionSeparator />
 
-        <Timeline />
+        <div id="itinerario" style={{ paddingTop: '5rem' }}>
+          <Timeline />
+        </div>
 
         <SectionSeparator />
         
-        <LocationCard />
+        <div id="ubicaciones" style={{ paddingTop: '5rem' }}>
+          <LocationCard />
+        </div>
         
         <SectionSeparator />
 
-        <RSVPSection guest={guest} companions={companions} />
+        <div id="rsvp" style={{ paddingTop: '5rem' }}>
+          <RSVPSection guest={guest} companions={companions} />
+        </div>
       </main>
 
       <Footer />
       
-      {/* Pop-up for Special roles like "Dama de Honor" */}
+      {/* Modals */}
       {specialMessage && (
         <RoleModal
           message={specialMessage}
           onClose={() => setSpecialMessage(null)}
         />
       )}
+
+      <AccommodationsModal 
+        isOpen={showAccommodations} 
+        onClose={() => setShowAccommodations(false)} 
+      />
     </motion.div>
   );
 }
