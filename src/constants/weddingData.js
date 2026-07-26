@@ -21,8 +21,8 @@ export const WEDDING_DATA = {
   coupleFullDisplay: 'Basalo & Rodriguez',
 
   // ISO 8601 — used for the countdown timer
-  dateTarget: new Date('2026-12-12T15:00:00'),
-  dateDisplay: '12 de Diciembre, 2026',
+  dateTarget: new Date('2026-10-10T15:00:00'),
+  dateDisplay: '10 de Octubre, 2026',
 
   tagline: '¡Nos Casamos!',
 
