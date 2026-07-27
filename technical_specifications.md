@@ -77,7 +77,7 @@ CREATE TABLE mensajes_rol (
 
 ### 1. The Digital Envelope (`src/components/CoverPage.jsx`)
 *   Provides a clean initial lookup state.
-*   Contains the `GuestSearchInput` component, implementing a debounced fuzzy lookup query mapping `nombre` and `apellido` via Supabase `.or(ilike)`.
+*   Contains the `GuestSearchInput` component. On mount it fetches the name index once (`id, nombre, apellido` only — no emails reach the browser) and filters it locally with `src/utils/guestSearch.js`. A guest is only listed when the typed text matches **both** one of their given names and one of their surnames, so typing a single word (or a stray letter) never reveals the guest list. Matching ignores case and accents, accepts word prefixes, and tolerates one typo per word (≥4 chars). The full record (`correo`, `asistira`) is fetched by `id` on selection.
 *   Includes validation safety triggers that disable background search updates once a name is clicked to avoid "No result" pop-ups post-selection.
 *   Retrieves the selected guest's companion linkages and special roles/messages.
 

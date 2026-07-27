@@ -134,7 +134,7 @@ export function CoverPage({ onEnter }) {
             style={{ width: '100%', maxWidth: '450px', zIndex: 1, textAlign: 'center' }}
           >
             <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>Para entregar tu invitación</h2>
-            <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem', marginBottom: '2rem' }}>Por favor, escribe tu nombre y apellido tal como aparece en el sobre.</p>
+            <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem', marginBottom: '2rem' }}>Por favor, escribe tu nombre y tu apellido. No hace falta que sea el nombre completo ni con tildes.</p>
             
             <GuestSearchInput
               onSelect={handleGuestSelect}

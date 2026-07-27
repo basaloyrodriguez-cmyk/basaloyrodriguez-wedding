@@ -1,53 +1,77 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Search, Loader2 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
+import { buildIndex, searchGuests } from '../../utils/guestSearch';
 
-export function GuestSearchInput({ onSelect, disabled = false }) {
+const EMPTY_RESULT = { status: 'need-surname', results: [] };
+
+export function GuestSearchInput({ onSelect, onClear, disabled = false }) {
   const [query, setQuery]               = useState('');
-  const [results, setResults]           = useState([]);
-  const [isLoading, setIsLoading]       = useState(false);
+  const [index, setIndex]               = useState(null);
+  const [loadError, setLoadError]       = useState(false);
+  const [isSelecting, setIsSelecting]   = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeIdx, setActiveIdx]       = useState(-1);
-  const inputRef  = useRef(null);
-  const skipNextSearch = useRef(false);
+  const inputRef    = useRef(null);
+  const hasSelected = useRef(false);
 
+  // Una sola descarga al montar. El componente solo se monta en el paso 'search'
+  // de CoverPage, así que nada viaja hasta que el invitado abre la invitación.
+  // Solo id/nombre/apellido: el correo de cada invitado no tiene por qué bajar
+  // al navegador, se pide al seleccionar.
   useEffect(() => {
-    if (skipNextSearch.current) {
-      skipNextSearch.current = false;
-      return;
-    }
+    let cancelled = false;
 
-    if (query.trim().length < 2) {
-      setResults([]);
-      setShowDropdown(false);
-      return;
-    }
-
-    const timer = setTimeout(async () => {
-      setIsLoading(true);
-      const { data } = await supabase
+    (async () => {
+      const { data, error } = await supabase
         .from('invitados')
-        .select('id, nombre, apellido, correo, asistira')
-        .or(`nombre.ilike.%${query.trim()}%,apellido.ilike.%${query.trim()}%`)
-        .order('apellido', { ascending: true })
-        .limit(5);
+        .select('id, nombre, apellido');
 
-      setResults(data ?? []);
-      setShowDropdown(true);
-      setActiveIdx(-1);
-      setIsLoading(false);
-    }, 300);
+      if (cancelled) return;
+      if (error || !data) {
+        setLoadError(true);
+        return;
+      }
+      setIndex(buildIndex(data));
+    })();
 
-    return () => clearTimeout(timer);
-  }, [query]);
+    return () => { cancelled = true; };
+  }, []);
 
-  const handleSelect = (guest) => {
-    skipNextSearch.current = true;
+  // Filtrado síncrono: ya no hay red en el camino, así que no hace falta debounce.
+  const { status, results } = useMemo(
+    () => (index ? searchGuests(index, query) : EMPTY_RESULT),
+    [index, query]
+  );
+
+  const isLoading = (!index && !loadError) || isSelecting;
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    setShowDropdown(true);
+    setActiveIdx(-1);
+    if (hasSelected.current) {
+      hasSelected.current = false;
+      onClear?.();
+    }
+  };
+
+  const handleSelect = async (guest) => {
+    hasSelected.current = true;
     setQuery(`${guest.nombre} ${guest.apellido}`);
     setShowDropdown(false);
-    setResults([]);
-    onSelect(guest);
+    setIsSelecting(true);
+
+    // El resto del flujo (RSVP, correo de confirmación) necesita correo y asistira.
+    const { data } = await supabase
+      .from('invitados')
+      .select('id, nombre, apellido, correo, asistira')
+      .eq('id', guest.id)
+      .single();
+
+    setIsSelecting(false);
+    onSelect(data ?? guest);
   };
 
   const handleKeyDown = (e) => {
@@ -67,7 +91,13 @@ export function GuestSearchInput({ onSelect, disabled = false }) {
   };
 
   const handleBlur = () => setTimeout(() => setShowDropdown(false), 160);
-  const handleFocus = () => { if (results.length > 0) setShowDropdown(true); };
+  const handleFocus = () => { if (query.trim().length > 0) setShowDropdown(true); };
+
+  const emptyMessage = loadError
+    ? 'No pudimos cargar la lista. Por favor, recarga la página.'
+    : status === 'need-surname'
+      ? 'Escribe también tu apellido, por favor.'
+      : 'No encontramos ese nombre. Revísalo tal como aparece en el sobre.';
 
   return (
     <div style={{ position: 'relative', width: '100%' }}>
@@ -76,9 +106,9 @@ export function GuestSearchInput({ onSelect, disabled = false }) {
           ref={inputRef}
           type="text"
           className="input-elegant"
-          placeholder="Escribe tu nombre y apellido..."
+          placeholder="Escribe tu nombre y tu apellido..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
           onBlur={handleBlur}
           onFocus={handleFocus}
@@ -92,7 +122,7 @@ export function GuestSearchInput({ onSelect, disabled = false }) {
       </div>
 
       <AnimatePresence>
-        {showDropdown && (
+        {showDropdown && query.trim().length > 0 && (
           <motion.ul
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -141,7 +171,7 @@ export function GuestSearchInput({ onSelect, disabled = false }) {
             ) : (
               !isLoading && (
                 <li style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--clr-text-faint)', fontStyle: 'italic' }}>
-                  No encontramos ese nombre. Intenta escribir solo tu primer nombre.
+                  {emptyMessage}
                 </li>
               )
             )}
