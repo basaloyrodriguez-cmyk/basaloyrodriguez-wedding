@@ -196,6 +196,77 @@ h1, h2, h3, h4, h5, h6 {
   .nav-tabbar-mobile { display: flex !important; }
 }
 
+/* ── Hero Section ───────────────────────────────────────────────────────── */
+.hero-section {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.hero-gif-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 3rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-gif-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.hero-text-container {
+  max-width: 700px;
+}
+
+.hero-tagline {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--clr-text-muted);
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.hero-couple-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  color: var(--clr-navy);
+  line-height: 1.1;
+  margin-bottom: 2rem;
+}
+
+.hero-message {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--clr-text-muted);
+  font-style: italic;
+  line-height: 1.8;
+}
+
+@media (max-width: 640px) {
+  .hero-section {
+    padding: 3rem 0;
+  }
+  .hero-gif-container {
+    max-width: 100%;
+    width: 100vw;
+    margin-bottom: 2rem;
+  }
+  .hero-text-container {
+    padding: 0 1.5rem;
+  }
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--clr-white); }
