@@ -204,7 +204,7 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 2rem;
+  padding: 6.5rem 2rem 4rem 2rem;
   text-align: center;
 }
 
@@ -255,7 +255,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 640px) {
   .hero-section {
-    padding: 3rem 0;
+    padding: 5.5rem 0 3rem 0;
   }
   .hero-gif-container {
     max-width: 100%;

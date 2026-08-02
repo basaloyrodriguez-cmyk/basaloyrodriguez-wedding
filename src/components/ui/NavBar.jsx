@@ -33,13 +33,13 @@ export function NavBar({ onOpenAccommodations }) {
           left: 0,
           right: 0,
           zIndex: 1000,
-          padding: scrolled ? '1rem 2rem' : '1.5rem 2rem',
-          background: scrolled ? 'rgba(252, 252, 252, 0.85)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(10px)' : 'none',
-          borderBottom: scrolled ? '1px solid rgba(2, 47, 99, 0.05)' : 'none',
+          padding: scrolled ? '0.75rem 1.5rem' : '1rem 1.5rem',
+          background: 'rgba(252, 252, 252, 0.92)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: '1px solid rgba(2, 47, 99, 0.05)',
           transition: 'all 0.3s ease',
           display: 'flex',
-          justifyContent: 'center' // Center the entire nav block
+          justifyContent: 'center'
         }}
       >
         <div style={{
