@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { WEDDING_DATA } from '../constants/weddingData';
 import { GuestSearchInput } from './ui/GuestSearchInput';
 import { motion, AnimatePresence } from 'framer-motion';
+import logoWedding from '../assets/logo_wedding.png';
 
 export function CoverPage({ onEnter }) {
   const [step, setStep] = useState('hero'); // 'hero' | 'search' | 'opening'
@@ -109,10 +110,14 @@ export function CoverPage({ onEnter }) {
             transition={{ duration: 0.8, ease: "easeOut" }}
             style={{ position: 'relative', zIndex: 1, textAlign: 'center', width: '100%', maxWidth: '800px' }}
           >
-            <h1 className="title-hero mb-1">
-              Basalo<br/>& Rodriguez
+            <img
+              src={logoWedding}
+              alt="Basalo & Rodríguez"
+              style={{ width: '140px', height: 'auto', margin: '0 auto 1.5rem', display: 'block' }}
+            />
+            <h1 className="title-hero mb-2">
+              Basalo<br/>& Rodríguez
             </h1>
-            <p className="script-accent mb-2">Nuestra historia comienza aquí</p>
             <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', color: 'var(--clr-text-muted)', letterSpacing: '0.1em', marginBottom: '3rem' }}>
               10 DE OCTUBRE, 2026
             </p>
@@ -181,7 +186,7 @@ export function CoverPage({ onEnter }) {
             }}
           >
             <h2 className="title-hero" style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-              Basalo<br/>& Rodriguez
+              Basalo<br/>& Rodríguez
             </h2>
             <p className="script-accent" style={{ fontSize: '2rem', color: 'var(--clr-text-faint)' }}>Te invitan a su boda</p>
             <motion.div 

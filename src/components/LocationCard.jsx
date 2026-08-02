@@ -3,35 +3,36 @@ import { motion } from 'framer-motion';
 
 function PrintedVenueCard({ title, place, address, mapsUrl, image }) {
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.8 }}
-      style={{
-        background: 'var(--clr-white-pure)',
-        padding: '1.5rem',
-        borderRadius: 'var(--radius-sm)',
-        boxShadow: 'var(--shadow-sm)',
-        border: '1px solid rgba(2, 47, 99, 0.05)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        textAlign: 'center',
-        width: '100%'
-      }}
-    >
-      <div style={{ width: '100%', height: '250px', overflow: 'hidden', borderRadius: 'var(--radius-sm)', marginBottom: '2rem' }}>
-        <motion.img 
-          src={image} 
-          alt={place} 
+    <div style={{ width: '100%' }}>
+      <div className="full-bleed" style={{ height: '350px', overflow: 'hidden', marginBottom: '2rem' }}>
+        <motion.img
+          src={image}
+          alt={place}
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </div>
-      
-      <span style={{ 
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        style={{
+          background: 'var(--clr-white-pure)',
+          padding: '1.5rem',
+          borderRadius: 'var(--radius-sm)',
+          boxShadow: 'var(--shadow-sm)',
+          border: '1px solid rgba(2, 47, 99, 0.05)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+          width: '100%'
+        }}
+      >
+      <span style={{
         fontFamily: 'var(--font-serif)', 
         color: 'var(--clr-olive)', 
         fontSize: '1.2rem', 
@@ -66,7 +67,8 @@ function PrintedVenueCard({ title, place, address, mapsUrl, image }) {
       >
         Abrir Google Maps
       </a>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }
 

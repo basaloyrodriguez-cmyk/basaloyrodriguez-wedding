@@ -6,7 +6,7 @@
 :root {
   --clr-navy:        #022f63;
   --clr-navy-light:  #0a407f;
-  --clr-white:       #f9f7f2;
+  --clr-white:       #fcfcfc;
   --clr-white-pure:  #ffffff;
   --clr-olive:       #445a43;
   --clr-light-blue:  #e6f2f7;
@@ -30,7 +30,7 @@
 
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-script: 'Pinyon Script', cursive;
-  --font-sans:  'Inter', system-ui, sans-serif;
+  --font-sans:  'Cormorant Garamond', Georgia, serif;
 
   --transition: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -174,6 +174,27 @@ h1, h2, h3, h4, h5, h6 {
 .mt-2 { margin-top: 2rem; }
 .mb-1 { margin-bottom: 1rem; }
 .mb-2 { margin-bottom: 2rem; }
+
+/* Full-bleed: stretches an element edge-to-edge regardless of ancestor
+   max-width/padding. Overflow from 100vw vs. the visual viewport (scrollbar
+   width) is caught by the existing overflow-x: hidden on html/body. */
+.full-bleed {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+/* Responsive nav: bottom tab bar replaces the top links below 640px */
+.nav-links-desktop { }
+.nav-tabbar-mobile { display: none; }
+
+@media (max-width: 640px) {
+  .nav-links-desktop { display: none !important; }
+  .nav-tabbar-mobile { display: flex !important; }
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }

@@ -1,8 +1,8 @@
 // ─── Wedding Configuration ─────────────────────────────────────────────────
 // Edit this file to update all wedding information across the entire app.
 
-import caletaImg  from '../assets/caleta.jpg';
-import marriottImg from '../assets/marriott.jpg';
+import caletaImg   from '../assets/caleta.png';
+import marriottImg from '../assets/marriot_final.png';
 
 export const WEDDING_DATA = {
   groom: {
@@ -12,13 +12,13 @@ export const WEDDING_DATA = {
   },
   bride: {
     firstName: 'Maria Andrea',
-    lastName: 'Rodriguez Molina',
+    lastName: 'Rodríguez Molina',
     shortName: 'Andrea',
   },
 
   // Displayed as "Juan & Andrea" in headings
   coupleDisplay: 'Juan & Andrea',
-  coupleFullDisplay: 'Basalo & Rodriguez',
+  coupleFullDisplay: 'Basalo & Rodríguez',
 
   // ISO 8601 — used for the countdown timer
   dateTarget: new Date('2026-10-10T15:00:00'),

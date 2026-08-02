@@ -1,5 +1,6 @@
 import { WEDDING_DATA } from '../constants/weddingData';
 import { motion } from 'framer-motion';
+import openLetterGif from '../assets/open_letter.gif';
 
 export function HeroSection() {
   return (
@@ -19,22 +20,18 @@ export function HeroSection() {
         transition={{ duration: 1.5, ease: "easeOut" }}
         style={{
           width: '100%',
-          maxWidth: '600px',
-          height: '60vh',
-          minHeight: '400px',
-          overflow: 'hidden',
-          borderRadius: 'var(--radius-sm)',
-          boxShadow: 'var(--shadow-md)',
-          position: 'relative',
-          marginBottom: '3rem'
+          maxWidth: '500px',
+          margin: '0 auto 3rem auto',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
       >
         <img
-          src={WEDDING_DATA.heroBgUrl}
-          alt="Foto de boda"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          src={openLetterGif}
+          alt="Abriendo la invitación"
+          style={{ width: '100%', height: 'auto', objectFit: 'contain' }}
         />
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(2, 47, 99, 0.15)' }} />
       </motion.div>
 
       <motion.div
