@@ -16,22 +16,6 @@ export function HeroSection() {
           alt="Abriendo la invitación"
         />
       </motion.div>
-
-      <motion.div
-        className="hero-text-container"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-      >
-
-        <h2 className="hero-couple-title">
-          {WEDDING_DATA.coupleFullDisplay}
-        </h2>
-
-        <p className="hero-message">
-          "{WEDDING_DATA.message}"
-        </p>
-      </motion.div>
     </section>
   );
 }

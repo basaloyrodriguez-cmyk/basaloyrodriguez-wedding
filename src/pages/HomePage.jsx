@@ -52,8 +52,6 @@ export function HomePage() {
       <HeroSection />
 
       <main className="invitation-main" style={{ maxWidth: '800px', margin: '0 auto', padding: '0 1.5rem', position: 'relative', zIndex: 1 }}>
-        <SectionSeparator />
-
         {/* 2. Foto de nosotros (nice_pic_us - extremo a extremo) */}
         <motion.div
           id="nosotros"
@@ -61,7 +59,7 @@ export function HomePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          style={{ paddingTop: '1rem', textAlign: 'center' }}
+          style={{ paddingTop: '0.5rem', textAlign: 'center' }}
         >
           <div className="full-bleed" style={{ overflow: 'hidden', marginBottom: '2rem' }}>
             <img
