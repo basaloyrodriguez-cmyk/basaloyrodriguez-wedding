@@ -23,9 +23,6 @@ export function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
       >
-        <span className="hero-tagline">
-          {WEDDING_DATA.tagline}
-        </span>
 
         <h2 className="hero-couple-title">
           {WEDDING_DATA.coupleFullDisplay}

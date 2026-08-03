@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logoWedding from '../../assets/logo_wedding.png';
 import { BottomTabBar } from './BottomTabBar';
 
-export function NavBar({ onOpenAccommodations }) {
+export function NavBar() {
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,12 +17,21 @@ export function NavBar({ onOpenAccommodations }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const handleLogoClick = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/');
     }
   };
+
+  const DESKTOP_NAV = [
+    { label: 'Inicio', path: '/' },
+    { label: 'Vestimenta', path: '/vestimenta' },
+    { label: 'Hospedaje', path: '/hospedaje' },
+    { label: 'Asientos', path: '/asientos' },
+    { label: 'Regalos', path: '/regalos' },
+  ];
 
   return (
     <>
@@ -52,45 +64,37 @@ export function NavBar({ onOpenAccommodations }) {
           {/* Brand / Logo */}
           <img
             src={logoWedding}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={handleLogoClick}
             alt="Basalo & Rodríguez"
             style={{ height: '40px', width: 'auto', cursor: 'pointer' }}
           />
 
-          {/* Desktop links: hidden below 640px via .nav-links-desktop, replaced by BottomTabBar */}
-          <div className="nav-links-desktop" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-            {['Historia', 'Itinerario', 'Ubicaciones', 'RSVP'].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollTo(item.toLowerCase())}
+          {/* Desktop links */}
+          <div className="nav-links-desktop" style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            {DESKTOP_NAV.map(({ label, path }) => (
+              <Link
+                key={path}
+                to={path}
                 style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '0.8rem',
                   textTransform: 'uppercase',
                   letterSpacing: '0.15em',
-                  color: 'var(--clr-navy)',
-                  opacity: 0.7,
-                  transition: 'opacity 0.2s'
+                  color: location.pathname === path ? 'var(--clr-olive)' : 'var(--clr-navy)',
+                  fontWeight: location.pathname === path ? '600' : '400',
+                  opacity: location.pathname === path ? 1 : 0.75,
+                  transition: 'opacity 0.2s',
+                  textDecoration: 'none'
                 }}
-                onMouseEnter={(e) => e.target.style.opacity = 1}
-                onMouseLeave={(e) => e.target.style.opacity = 0.7}
               >
-                {item}
-              </button>
+                {label}
+              </Link>
             ))}
-
-            <button
-              className="btn btn--secondary"
-              style={{ height: '2.5rem', padding: '0 1.5rem', fontSize: '0.75rem', marginLeft: '1rem' }}
-              onClick={onOpenAccommodations}
-            >
-              Hospedaje
-            </button>
           </div>
         </div>
       </motion.nav>
 
-      <BottomTabBar onOpenAccommodations={onOpenAccommodations} />
+      <BottomTabBar />
     </>
   );
 }

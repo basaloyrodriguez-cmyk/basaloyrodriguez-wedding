@@ -4,13 +4,13 @@ import { motion } from 'framer-motion';
 function PrintedVenueCard({ title, place, address, mapsUrl, image }) {
   return (
     <div style={{ width: '100%' }}>
-      <div className="full-bleed" style={{ height: '350px', overflow: 'hidden', marginBottom: '2rem' }}>
+      <div className="full-bleed" style={{ minHeight: '250px', maxHeight: '500px', overflow: 'hidden', marginBottom: '2rem', backgroundColor: '#fcfcfc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <motion.img
           src={image}
           alt={place}
-          whileHover={{ scale: 1.05 }}
+          whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: 'auto', maxHeight: '500px', objectFit: 'contain' }}
         />
       </div>
 
