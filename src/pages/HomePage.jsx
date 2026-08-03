@@ -61,7 +61,7 @@ export function HomePage() {
           transition={{ duration: 0.8 }}
           style={{ paddingTop: '0.5rem', textAlign: 'center' }}
         >
-          <div className="full-bleed" style={{ overflow: 'hidden', marginBottom: '2rem' }}>
+          <div className="full-bleed" style={{ overflow: 'hidden', marginBottom: '1.5rem' }}>
             <img
               src={nicePicUs}
               alt="Juan & Andrea"
@@ -79,18 +79,27 @@ export function HomePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          style={{ paddingTop: '3rem', textAlign: 'center' }}
+          style={{ paddingTop: '2rem', textAlign: 'center' }}
         >
-          <div style={{
+          <div className="full-bleed" style={{
             backgroundColor: '#fcfcfc',
-            borderRadius: 'var(--radius-sm)',
             overflow: 'hidden',
-            marginBottom: '1.5rem'
+            marginBottom: '2rem',
+            display: 'flex',
+            justifyContent: 'center',
+            padding: '1rem 0'
           }}>
             <img
               src={invitationImg}
               alt="Invitación Oficial de Boda"
-              style={{ width: '100%', height: 'auto', display: 'block' }}
+              style={{
+                width: '100%',
+                height: 'auto',
+                display: 'block',
+                maxWidth: '1200px',
+                transform: 'scale(1.06)',
+                margin: '0 auto'
+              }}
             />
           </div>
         </motion.div>
