@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Shirt, Hotel, Armchair, Gift } from 'lucide-react';
+import { Gem, Hotel, Armchair, Gift } from 'lucide-react';
 
 const TABS = [
-  { label: 'Vestimenta', path: '/vestimenta', Icon: Shirt },
+  { label: 'Vestimenta', path: '/vestimenta', Icon: Gem },
   { label: 'Hospedaje', path: '/hospedaje', Icon: Hotel },
   { label: 'Asientos', path: '/asientos', Icon: Armchair },
   { label: 'Regalos', path: '/regalos', Icon: Gift },

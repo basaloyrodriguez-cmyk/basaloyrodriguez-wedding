@@ -9,6 +9,7 @@ import { RoleModal } from '../components/ui/RoleModal';
 import { BotanicalCorners, SectionSeparator } from '../components/ui/Decorations';
 import { NavBar } from '../components/ui/NavBar';
 import { AccommodationsModal } from '../components/AccommodationsModal';
+import { PlaylistSuggestions } from '../components/PlaylistSuggestions';
 import { motion } from 'framer-motion';
 import { useGuest } from '../context/GuestContext';
 import { Music, HelpCircle, Calendar, ArrowRight } from 'lucide-react';
@@ -25,6 +26,8 @@ function InstagramIcon({ size = 32, color = "#e1306c" }) {
 
 import itinerarioImg from '../assets/itinerario.png';
 import nicePicUs from '../assets/nice_pic_us.jpg';
+// TODO(asset pendiente): el usuario reemplazará esta imagen de la
+// invitación oficial cuando la entregue — sin más cambios de código.
 import invitationImg from '../assets/invitation.png';
 
 export function HomePage() {
@@ -70,7 +73,7 @@ export function HomePage() {
           </div>
         </motion.div>
 
-        <SectionSeparator />
+        <SectionSeparator margin="3.5rem 0" />
 
         {/* 3. Invitación oficial (invitation.png) */}
         <motion.div
@@ -79,12 +82,12 @@ export function HomePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          style={{ paddingTop: '2rem', textAlign: 'center' }}
+          style={{ paddingTop: '1.25rem', textAlign: 'center' }}
         >
           <div className="full-bleed" style={{
             backgroundColor: '#fcfcfc',
             overflow: 'hidden',
-            marginBottom: '2rem',
+            marginBottom: '1.25rem',
             display: 'flex',
             justifyContent: 'center',
             padding: '1rem 0'
@@ -104,14 +107,18 @@ export function HomePage() {
           </div>
         </motion.div>
 
-        <SectionSeparator />
+        <SectionSeparator margin="3.5rem 0" />
+
+        {/* TODO(asset pendiente): nueva foto a insertar aquí, entre "Invitación
+            oficial" y el Countdown. Seguir el mismo patrón full-bleed que
+            "Foto de nosotros" (arriba) en cuanto el usuario entregue la imagen. */}
 
         {/* 4. Countdown */}
-        <div id="cuenta-regresiva" style={{ paddingTop: '3rem' }}>
+        <div id="cuenta-regresiva" style={{ paddingTop: '2rem' }}>
           <Countdown />
         </div>
 
-        <SectionSeparator />
+        <SectionSeparator margin="3.5rem 0" />
 
         {/* 5. Foto del Itinerario (extremo a extremo) con Botón Ver Más */}
         <motion.div
@@ -120,7 +127,7 @@ export function HomePage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          style={{ paddingTop: '3rem', textAlign: 'center' }}
+          style={{ paddingTop: '2rem', textAlign: 'center' }}
         >
           <div className="full-bleed" style={{ backgroundColor: '#fcfcfc', overflow: 'hidden' }}>
             <Link to="/itinerario" style={{ display: 'block' }}>
@@ -140,10 +147,10 @@ export function HomePage() {
           </div>
         </motion.div>
 
-        <SectionSeparator />
+        <SectionSeparator margin="3.5rem 0" />
 
         {/* 6. El RSVP */}
-        <div id="rsvp" style={{ paddingTop: '3rem', marginBottom: '4rem' }}>
+        <div id="rsvp" style={{ paddingTop: '2rem', marginBottom: '2.5rem' }}>
           <RSVPSection guest={guest} companions={companions} />
         </div>
       </main>
@@ -193,12 +200,29 @@ export function HomePage() {
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'}
             >
+              {/* TODO(asset pendiente): imagen alusiva a la playlist, a insertar
+                  arriba del ícono cuando el usuario la entregue. */}
               <Music size={32} style={{ color: '#b0c074' }} />
               <h3 style={{ color: '#ffffff', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Playlist de la Boda</h3>
               <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>¡Recomiéndanos tus canciones favoritas para la fiesta!</p>
+              {/* TODO(pendiente): reemplazar por el link real de la playlist de Spotify. */}
+              <span style={{
+                marginTop: '0.25rem',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '0.75rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                color: '#b0c074',
+                border: '1px solid rgba(176, 192, 116, 0.5)',
+                borderRadius: '999px',
+                padding: '0.4rem 1rem'
+              }}>
+                Ver playlist
+              </span>
             </a>
 
             {/* Instagram */}
+            {/* TODO(pendiente): reemplazar por la URL real de Instagram cuando el usuario la entregue. */}
             <a
               href="https://instagram.com"
               target="_blank"
@@ -220,7 +244,7 @@ export function HomePage() {
             >
               <InstagramIcon size={32} color="#e1306c" />
               <h3 style={{ color: '#ffffff', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Instagram de la Boda</h3>
-              <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>Usa nuestro hashtag oficial y comparte tus fotos</p>
+              <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>Síguenos para acompañar nuestro proceso, compartir momentos y mantenerte informado.</p>
             </a>
 
             {/* Preguntas Frecuentes */}
@@ -243,9 +267,11 @@ export function HomePage() {
             >
               <HelpCircle size={32} style={{ color: '#63b3ed' }} />
               <h3 style={{ color: '#ffffff', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Preguntas Frecuentes</h3>
-              <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>Resuelve tus dudas sobre itinerarios, transporte y más</p>
+              <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>Tus dudas son válidas, te las contestamos con gusto. No te pierdas de nada por no resolverlas.</p>
             </Link>
           </div>
+
+          <PlaylistSuggestions />
         </div>
       </section>
 

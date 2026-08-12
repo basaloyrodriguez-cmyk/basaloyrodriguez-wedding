@@ -32,7 +32,7 @@ export function VestimentaPage() {
           className="text-center mb-2"
         >
           <h1 className="title-hero" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '0.5rem' }}>Código de Vestimenta</h1>
-          <p className="script-accent" style={{ fontSize: '2rem', color: 'var(--clr-olive)' }}>Rigurosa Etiqueta / Black Tie</p>
+          <p className="script-accent" style={{ fontSize: '2rem', color: 'var(--clr-olive)' }}>Elegante / Formal</p>
         </motion.div>
 
         <SectionSeparator />
@@ -50,7 +50,7 @@ export function VestimentaPage() {
               <h3 style={{ fontSize: '1.5rem' }}>Damas</h3>
             </div>
             <p style={{ color: 'var(--clr-text-muted)', lineHeight: '1.8' }}>
-              Vestido largo de noche de gala. Recomendamos colores elegantes, tonos joya o pastel.
+              Vestido largo de gala. Recomendamos colores vivos, profundos y vibrantes; preferible usar colores lisos y evitar estampados.
               Por respeto a la tradición, solicitamos amablemente evitar el color blanco, crema o marfil.
             </p>
           </motion.div>
@@ -67,7 +67,7 @@ export function VestimentaPage() {
               <h3 style={{ fontSize: '1.5rem' }}>Caballeros</h3>
             </div>
             <p style={{ color: 'var(--clr-text-muted)', lineHeight: '1.8' }}>
-              Tuxedo / Esmoquin o Traje oscuro formal completo con corbata o pajarita (corbatín).
+              Tuxedo / Esmoquin o Traje oscuro formal completo con corbata o corbatín.
             </p>
           </motion.div>
 

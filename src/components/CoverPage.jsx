@@ -118,10 +118,10 @@ export function CoverPage({ onEnter }) {
             <h1 className="title-hero mb-2">
               Basalo<br/>& Rodríguez
             </h1>
-            <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', color: 'var(--clr-text-muted)', letterSpacing: '0.1em', marginBottom: '3rem' }}>
+            <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', color: 'var(--clr-navy)', letterSpacing: '0.1em', marginBottom: '3rem' }}>
               10 DE OCTUBRE, 2026
             </p>
-            <button className="btn btn--primary" onClick={handleStart}>
+            <button className="btn btn--primary" style={{ fontSize: '1.05rem', padding: '0 3.5rem' }} onClick={handleStart}>
               Abrir Invitación
             </button>
           </motion.div>
@@ -138,8 +138,9 @@ export function CoverPage({ onEnter }) {
             className="panel"
             style={{ width: '100%', maxWidth: '450px', zIndex: 1, textAlign: 'center' }}
           >
-            <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>Para entregar tu invitación</h2>
-            <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem', marginBottom: '2rem' }}>Por favor, escribe tu nombre y tu apellido. No hace falta que sea el nombre completo ni con tildes.</p>
+            <h2 style={{ fontSize: '1.75rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>Abre tu invitación</h2>
+            <p style={{ color: 'var(--clr-text-muted)', fontSize: '1.05rem', marginBottom: '0.35rem' }}>Por favor, escribe tu nombre y apellido</p>
+            <p style={{ color: 'var(--clr-text-faint)', fontSize: '0.8rem', marginBottom: '2rem', fontStyle: 'italic' }}>Tal y como te escribieron al contactarte</p>
             
             <GuestSearchInput
               onSelect={handleGuestSelect}
@@ -156,10 +157,10 @@ export function CoverPage({ onEnter }) {
                   style={{ marginTop: '2rem', overflow: 'hidden' }}
                 >
                   <p style={{ color: 'var(--clr-olive)', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic' }}>
-                    ¡Encontrado! Hola, {selectedGuest.nombre}.
+                    Hola, {selectedGuest.nombre}.
                   </p>
                   <button className="btn btn--primary" style={{ width: '100%' }} onClick={handleOpen}>
-                    Descubrir Detalles
+                    Abrir invitación
                   </button>
                 </motion.div>
               )}

@@ -35,9 +35,9 @@ export function BotanicalCorners() {
 }
 
 // Placeholder for section separators
-export function SectionSeparator() {
+export function SectionSeparator({ margin = '6rem 0' }) {
   return (
-    <div className="flex-center" style={{ margin: '6rem 0', opacity: 0.3 }}>
+    <div className="flex-center" style={{ margin, opacity: 0.3 }}>
       <div style={{ width: '60px', height: '1px', background: 'var(--clr-navy)' }} />
       <span style={{ margin: '0 1.5rem', color: 'var(--clr-olive)' }}>✧</span>
       <div style={{ width: '60px', height: '1px', background: 'var(--clr-navy)' }} />

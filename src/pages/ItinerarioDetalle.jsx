@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+// TODO: página pendiente de diseño final del itinerario detallado — el
+// placeholder "Próximamente..." de abajo es intencional, no un error.
 export function ItinerarioDetalle() {
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem 1.5rem 4rem', minHeight: '100dvh' }}>

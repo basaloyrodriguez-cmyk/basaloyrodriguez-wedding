@@ -20,8 +20,12 @@ const FAQS = [
     a: 'Para permitir a todos nuestros invitados disfrutar de una velada de celebración, hemos organizado una recepción exclusivamente para adultos.'
   },
   {
+    q: '¿Es necesario asistir a la ceremonia religiosa?',
+    a: 'Por favor, te pedimos acudir a nuestra celebración eclesial; es la razón por la que celebramos. Comparte con nosotros el momento más importante de nuestras vidas.'
+  },
+  {
     q: '¿Habrá estacionamiento disponible?',
-    a: 'Sí, tanto en la Iglesia San Francisco de la Caleta como en el Hotel JW Marriott hay disponibilidad de estacionamiento y servicio de Valet Parking.'
+    a: 'Sí, tanto en la Iglesia San Francisco de la Caleta como en el Hotel JW Marriott hay disponibilidad de estacionamiento y servicio de Valet Parking. El self parking en el Marriott es de cortesía, valida tu ticket antes de salir. Los estacionamientos en La Caleta son reducidos, te recomendamos hacer carpool y llegar temprano.'
   },
   {
     q: '¿Cuál es la fecha límite para confirmar mi asistencia (RSVP)?',

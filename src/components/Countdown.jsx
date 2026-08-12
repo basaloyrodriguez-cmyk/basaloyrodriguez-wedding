@@ -36,7 +36,7 @@ export function Countdown() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.8 }}
-      style={{ padding: '4rem 1rem', textAlign: 'center' }}
+      style={{ padding: '2.5rem 1rem', textAlign: 'center' }}
     >
       <h2 className="script-accent mb-2">Ya falta poco</h2>
       
