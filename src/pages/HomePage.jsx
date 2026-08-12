@@ -155,10 +155,9 @@ export function HomePage() {
         </div>
       </main>
 
-      {/* 7. Sección en Gris Oscuro (Playlist, Instagram, Preguntas Frecuentes) */}
+      {/* 7. Información Adicional (Playlist, Instagram, Preguntas Frecuentes) */}
       <section style={{
-        backgroundColor: '#1e2530',
-        color: '#ffffff',
+        backgroundColor: 'var(--clr-white)',
         padding: '4rem 1.5rem',
         position: 'relative',
         zIndex: 1
@@ -167,7 +166,7 @@ export function HomePage() {
           <h2 style={{
             fontFamily: 'var(--font-serif)',
             fontSize: '2.2rem',
-            color: '#ffffff',
+            color: 'var(--clr-navy)',
             textAlign: 'center',
             marginBottom: '2.5rem',
             letterSpacing: '0.03em'
@@ -186,25 +185,26 @@ export function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                background: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '8px',
+                background: 'var(--clr-white-pure)',
+                border: '1px solid rgba(2, 47, 99, 0.08)',
+                borderRadius: 'var(--radius-sm)',
+                boxShadow: 'var(--shadow-sm)',
                 padding: '1.75rem 1.25rem',
                 textAlign: 'center',
-                transition: 'transform 0.3s, background 0.3s',
+                transition: 'transform 0.3s, box-shadow 0.3s',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '0.75rem'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'}
+              onMouseEnter={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
+              onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-sm)'}
             >
               {/* TODO(asset pendiente): imagen alusiva a la playlist, a insertar
                   arriba del ícono cuando el usuario la entregue. */}
-              <Music size={32} style={{ color: '#b0c074' }} />
-              <h3 style={{ color: '#ffffff', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Playlist de la Boda</h3>
-              <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>¡Recomiéndanos tus canciones favoritas para la fiesta!</p>
+              <Music size={32} style={{ color: 'var(--clr-olive)' }} />
+              <h3 style={{ color: 'var(--clr-navy)', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Playlist de la Boda</h3>
+              <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.85rem' }}>¡Recomiéndanos tus canciones favoritas para la fiesta!</p>
               {/* TODO(pendiente): reemplazar por el link real de la playlist de Spotify. */}
               <span style={{
                 marginTop: '0.25rem',
@@ -212,8 +212,8 @@ export function HomePage() {
                 fontSize: '0.75rem',
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
-                color: '#b0c074',
-                border: '1px solid rgba(176, 192, 116, 0.5)',
+                color: 'var(--clr-olive)',
+                border: '1px solid var(--clr-olive)',
                 borderRadius: '999px',
                 padding: '0.4rem 1rem'
               }}>
@@ -228,46 +228,48 @@ export function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                background: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '8px',
+                background: 'var(--clr-white-pure)',
+                border: '1px solid rgba(2, 47, 99, 0.08)',
+                borderRadius: 'var(--radius-sm)',
+                boxShadow: 'var(--shadow-sm)',
                 padding: '1.75rem 1.25rem',
                 textAlign: 'center',
-                transition: 'transform 0.3s, background 0.3s',
+                transition: 'transform 0.3s, box-shadow 0.3s',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '0.75rem'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'}
+              onMouseEnter={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
+              onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-sm)'}
             >
-              <InstagramIcon size={32} color="#e1306c" />
-              <h3 style={{ color: '#ffffff', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Instagram de la Boda</h3>
-              <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>Síguenos para acompañar nuestro proceso, compartir momentos y mantenerte informado.</p>
+              <InstagramIcon size={32} color="var(--clr-olive)" />
+              <h3 style={{ color: 'var(--clr-navy)', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Instagram de la Boda</h3>
+              <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.85rem' }}>Síguenos para acompañar nuestro proceso, compartir momentos y mantenerte informado.</p>
             </a>
 
             {/* Preguntas Frecuentes */}
             <Link
               to="/preguntas-frecuentes"
               style={{
-                background: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '8px',
+                background: 'var(--clr-white-pure)',
+                border: '1px solid rgba(2, 47, 99, 0.08)',
+                borderRadius: 'var(--radius-sm)',
+                boxShadow: 'var(--shadow-sm)',
                 padding: '1.75rem 1.25rem',
                 textAlign: 'center',
-                transition: 'transform 0.3s, background 0.3s',
+                transition: 'transform 0.3s, box-shadow 0.3s',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '0.75rem'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.12)'}
-              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'}
+              onMouseEnter={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
+              onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-sm)'}
             >
-              <HelpCircle size={32} style={{ color: '#63b3ed' }} />
-              <h3 style={{ color: '#ffffff', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Preguntas Frecuentes</h3>
-              <p style={{ color: '#a0aec0', fontSize: '0.85rem' }}>Tus dudas son válidas, te las contestamos con gusto. No te pierdas de nada por no resolverlas.</p>
+              <HelpCircle size={32} style={{ color: 'var(--clr-olive)' }} />
+              <h3 style={{ color: 'var(--clr-navy)', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Preguntas Frecuentes</h3>
+              <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.85rem' }}>Tus dudas son válidas, te las contestamos con gusto. No te pierdas de nada por no resolverlas.</p>
             </Link>
           </div>
 
