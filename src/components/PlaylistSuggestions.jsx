@@ -66,40 +66,35 @@ export function PlaylistSuggestions() {
 
   if (!guest) return null;
 
-  const fieldStyle = {
-    width: '100%',
-    background: 'rgba(255, 255, 255, 0.06)',
-    border: '1px solid rgba(255, 255, 255, 0.15)',
-    borderRadius: '6px',
-    padding: '0.75rem 1rem',
-    color: '#ffffff',
-    fontFamily: 'var(--font-sans)',
-    fontSize: '0.95rem',
-  };
-
   return (
-    <div style={{ marginTop: '3rem', paddingTop: '2.5rem', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
-      <div style={{ textAlign: 'center', marginBottom: '1.75rem' }}>
-        <Music2 size={28} style={{ color: '#b0c074', marginBottom: '0.5rem' }} />
-        <p style={{ color: '#a0aec0', fontSize: '0.95rem', maxWidth: '460px', margin: '0 auto' }}>
-          Recomiéndanos tus canciones favoritas para la fiesta. Puedes escribirla o pegar su link de Spotify.
-        </p>
-      </div>
+    <div
+      className="panel"
+      style={{
+        marginTop: '3rem',
+        maxWidth: '460px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center'
+      }}
+    >
+      <Music2 size={28} style={{ color: 'var(--clr-olive)', marginBottom: '0.75rem' }} />
+      <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+        Recomiéndanos tus canciones favoritas para la fiesta. Puedes escribirla o pegar su link de Spotify.
+      </p>
 
       {!loadingList && suggestions.length > 0 && (
-        <ul style={{ listStyle: 'none', maxWidth: '460px', margin: '0 auto 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <ul style={{ listStyle: 'none', margin: '0 0 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', textAlign: 'left' }}>
           {suggestions.map((s) => (
             <li key={s.id} style={{
-              background: 'rgba(255, 255, 255, 0.06)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '6px',
+              background: 'var(--clr-light-blue)',
+              borderRadius: 'var(--radius-sm)',
               padding: '0.6rem 1rem',
-              color: '#e2e8f0',
+              color: 'var(--clr-navy)',
               fontSize: '0.9rem'
             }}>
               {s.recomendacion}
               {s.spotify_url && (
-                <a href={s.spotify_url} target="_blank" rel="noopener noreferrer" style={{ color: '#b0c074', marginLeft: '0.5rem' }}>
+                <a href={s.spotify_url} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--clr-olive)', marginLeft: '0.5rem' }}>
                   (link)
                 </a>
               )}
@@ -108,23 +103,25 @@ export function PlaylistSuggestions() {
         </ul>
       )}
 
-      <form onSubmit={handleSubmit} style={{ maxWidth: '460px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
         <input
           type="text"
+          className="input-elegant"
           placeholder="Canción o artista"
           value={recomendacion}
           onChange={(e) => setRecomendacion(e.target.value)}
-          style={fieldStyle}
+          style={{ fontSize: '1.1rem' }}
         />
         <input
           type="url"
+          className="input-elegant"
           placeholder="Link de Spotify (opcional)"
           value={spotifyUrl}
           onChange={(e) => setSpotifyUrl(e.target.value)}
-          style={fieldStyle}
+          style={{ fontSize: '1.1rem' }}
         />
         {submitError && (
-          <p style={{ color: '#e2a0a0', fontSize: '0.85rem' }}>{submitError}</p>
+          <p style={{ color: 'var(--clr-error)', fontSize: '0.85rem' }}>{submitError}</p>
         )}
         <button
           type="submit"

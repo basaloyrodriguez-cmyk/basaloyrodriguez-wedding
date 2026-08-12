@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { GuestProvider } from './context/GuestContext';
+import { ScrollToTop } from './components/ScrollToTop';
 import { HomePage } from './pages/HomePage';
 import { ItinerarioDetalle } from './pages/ItinerarioDetalle';
 import { VestimentaPage } from './pages/VestimentaPage';
@@ -11,6 +12,7 @@ import { FAQPage } from './pages/FAQPage';
 export default function App() {
   return (
     <GuestProvider>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/itinerario" element={<ItinerarioDetalle />} />
