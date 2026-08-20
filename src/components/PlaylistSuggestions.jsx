@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Loader2, Music } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useGuest } from '../context/GuestContext';
+import musicLogo from '../assets/music_log.png';
 
 export function PlaylistSuggestions() {
   const { guest } = useGuest();
@@ -77,9 +78,11 @@ export function PlaylistSuggestions() {
         textAlign: 'center'
       }}
     >
-      {/* TODO(asset pendiente): imagen alusiva a la playlist, a insertar
-          arriba del ícono cuando el usuario la entregue. */}
-      <Music size={32} style={{ color: 'var(--clr-olive)' }} />
+      <img
+        src={musicLogo}
+        alt="Playlist"
+        style={{ width: '48px', height: 'auto', margin: '0 auto', display: 'block' }}
+      />
       <h3 style={{ color: 'var(--clr-navy)', fontSize: '1.25rem', fontFamily: 'var(--font-sans)', margin: '0.75rem 0 1rem' }}>Playlist de la Boda</h3>
       {/* TODO(pendiente): reemplazar por el link real de la playlist de Spotify. */}
       <a

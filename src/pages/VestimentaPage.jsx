@@ -5,6 +5,7 @@ import { Footer } from '../components/Footer';
 import { BotanicalCorners, SectionSeparator } from '../components/ui/Decorations';
 import { Shirt, Sparkles, AlertCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import dressLogo from '../assets/dress_logo.png';
 
 export function VestimentaPage() {
   return (
@@ -31,6 +32,11 @@ export function VestimentaPage() {
           transition={{ duration: 0.8 }}
           className="text-center mb-2"
         >
+          <img
+            src={dressLogo}
+            alt="Código de Vestimenta"
+            style={{ width: '90px', height: 'auto', margin: '0 auto 1rem', display: 'block' }}
+          />
           <h1 className="title-hero" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '0.5rem' }}>Código de Vestimenta</h1>
           <p className="script-accent" style={{ fontSize: '2rem', color: 'var(--clr-olive)' }}>Elegante / Formal</p>
         </motion.div>

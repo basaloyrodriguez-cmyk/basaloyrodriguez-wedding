@@ -26,6 +26,7 @@ function InstagramIcon({ size = 32, color = "#e1306c" }) {
 
 import itinerarioImg from '../assets/itinerario.png';
 import nicePicUs from '../assets/nice_pic_us.jpg';
+import img0878 from '../assets/IMG_0878.jpg';
 // TODO(asset pendiente): el usuario reemplazará esta imagen de la
 // invitación oficial cuando la entregue — sin más cambios de código.
 import invitationImg from '../assets/invitation.png';
@@ -107,9 +108,30 @@ export function HomePage() {
 
         <SectionSeparator margin="3.5rem 0" />
 
-        {/* TODO(asset pendiente): nueva foto a insertar aquí, entre "Invitación
-            oficial" y el Countdown. Seguir el mismo patrón full-bleed que
-            "Foto de nosotros" (arriba) en cuanto el usuario entregue la imagen. */}
+        {/* 3b. Foto de la pareja antes del Countdown */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{ textAlign: 'center' }}
+        >
+          <img
+            src={img0878}
+            alt="Juan & Andrea"
+            style={{
+              width: '100%',
+              maxWidth: '440px',
+              height: 'auto',
+              display: 'block',
+              margin: '0 auto',
+              borderRadius: 'var(--radius-sm)',
+              boxShadow: 'var(--shadow-md)'
+            }}
+          />
+        </motion.div>
+
+        <SectionSeparator margin="3.5rem 0" />
 
         {/* 4. Countdown */}
         <div id="cuenta-regresiva" style={{ paddingTop: '2rem' }}>
