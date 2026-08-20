@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Loader2, Music2 } from 'lucide-react';
+import { Loader2, Music } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useGuest } from '../context/GuestContext';
 
@@ -77,7 +77,32 @@ export function PlaylistSuggestions() {
         textAlign: 'center'
       }}
     >
-      <Music2 size={28} style={{ color: 'var(--clr-olive)', marginBottom: '0.75rem' }} />
+      {/* TODO(asset pendiente): imagen alusiva a la playlist, a insertar
+          arriba del ícono cuando el usuario la entregue. */}
+      <Music size={32} style={{ color: 'var(--clr-olive)' }} />
+      <h3 style={{ color: 'var(--clr-navy)', fontSize: '1.25rem', fontFamily: 'var(--font-sans)', margin: '0.75rem 0 1rem' }}>Playlist de la Boda</h3>
+      {/* TODO(pendiente): reemplazar por el link real de la playlist de Spotify. */}
+      <a
+        href="https://spotify.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          display: 'inline-block',
+          fontFamily: 'var(--font-sans)',
+          fontSize: '0.75rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          color: 'var(--clr-olive)',
+          border: '1px solid var(--clr-olive)',
+          borderRadius: '999px',
+          padding: '0.4rem 1rem'
+        }}
+      >
+        Ver playlist
+      </a>
+
+      <hr style={{ border: 'none', borderTop: '1px solid rgba(2, 47, 99, 0.08)', margin: '1.5rem 0' }} />
+
       <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
         Recomiéndanos tus canciones favoritas para la fiesta. Puedes escribirla o pegar su link de Spotify.
       </p>

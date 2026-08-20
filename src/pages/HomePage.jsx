@@ -12,7 +12,7 @@ import { AccommodationsModal } from '../components/AccommodationsModal';
 import { PlaylistSuggestions } from '../components/PlaylistSuggestions';
 import { motion } from 'framer-motion';
 import { useGuest } from '../context/GuestContext';
-import { Music, HelpCircle, Calendar, ArrowRight } from 'lucide-react';
+import { HelpCircle, Calendar, ArrowRight } from 'lucide-react';
 
 function InstagramIcon({ size = 32, color = "#e1306c" }) {
   return (
@@ -72,8 +72,6 @@ export function HomePage() {
             />
           </div>
         </motion.div>
-
-        <SectionSeparator margin="3.5rem 0" />
 
         {/* 3. Invitación oficial (invitation.png) */}
         <motion.div
@@ -179,48 +177,6 @@ export function HomePage() {
             gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
             gap: '1.5rem'
           }}>
-            {/* Playlist */}
-            <a
-              href="https://spotify.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: 'var(--clr-white-pure)',
-                border: '1px solid rgba(2, 47, 99, 0.08)',
-                borderRadius: 'var(--radius-sm)',
-                boxShadow: 'var(--shadow-sm)',
-                padding: '1.75rem 1.25rem',
-                textAlign: 'center',
-                transition: 'transform 0.3s, box-shadow 0.3s',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '0.75rem'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
-              onMouseLeave={(e) => e.currentTarget.style.boxShadow = 'var(--shadow-sm)'}
-            >
-              {/* TODO(asset pendiente): imagen alusiva a la playlist, a insertar
-                  arriba del ícono cuando el usuario la entregue. */}
-              <Music size={32} style={{ color: 'var(--clr-olive)' }} />
-              <h3 style={{ color: 'var(--clr-navy)', fontSize: '1.25rem', fontFamily: 'var(--font-sans)' }}>Playlist de la Boda</h3>
-              <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.85rem' }}>¡Recomiéndanos tus canciones favoritas para la fiesta!</p>
-              {/* TODO(pendiente): reemplazar por el link real de la playlist de Spotify. */}
-              <span style={{
-                marginTop: '0.25rem',
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.75rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                color: 'var(--clr-olive)',
-                border: '1px solid var(--clr-olive)',
-                borderRadius: '999px',
-                padding: '0.4rem 1rem'
-              }}>
-                Ver playlist
-              </span>
-            </a>
-
             {/* Instagram */}
             {/* TODO(pendiente): reemplazar por la URL real de Instagram cuando el usuario la entregue. */}
             <a
