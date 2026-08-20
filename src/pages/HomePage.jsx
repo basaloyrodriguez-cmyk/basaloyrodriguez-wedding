@@ -106,7 +106,7 @@ export function HomePage() {
           </div>
         </motion.div>
 
-        <SectionSeparator margin="3.5rem 0" />
+        <SectionSeparator margin="1.75rem 0" />
 
         {/* 3b. Foto de la pareja antes del Countdown */}
         <motion.div
@@ -131,14 +131,14 @@ export function HomePage() {
           />
         </motion.div>
 
-        <SectionSeparator margin="3.5rem 0" />
+        <SectionSeparator margin="1.75rem 0" />
 
         {/* 4. Countdown */}
         <div id="cuenta-regresiva" style={{ paddingTop: '2rem' }}>
           <Countdown />
         </div>
 
-        <SectionSeparator margin="3.5rem 0" />
+        <SectionSeparator margin="1.75rem 0" />
 
         {/* 5. Foto del Itinerario (extremo a extremo) con Botón Ver Más */}
         <motion.div
@@ -167,7 +167,7 @@ export function HomePage() {
           </div>
         </motion.div>
 
-        <SectionSeparator margin="3.5rem 0" />
+        <SectionSeparator margin="1.75rem 0" />
 
         {/* 6. El RSVP */}
         <div id="rsvp" style={{ paddingTop: '2rem', marginBottom: '2.5rem' }}>
