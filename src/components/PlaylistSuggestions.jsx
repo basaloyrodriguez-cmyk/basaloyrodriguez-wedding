@@ -84,9 +84,8 @@ export function PlaylistSuggestions() {
         style={{ width: '48px', height: 'auto', margin: '0 auto', display: 'block' }}
       />
       <h3 style={{ color: 'var(--clr-navy)', fontSize: '1.25rem', fontFamily: 'var(--font-sans)', margin: '0.75rem 0 1rem' }}>Playlist de la Boda</h3>
-      {/* TODO(pendiente): reemplazar por el link real de la playlist de Spotify. */}
       <a
-        href="https://spotify.com"
+        href="https://open.spotify.com/playlist/48ihudrq9ynqTW6dgzrJf3?si=M6xHkoLCSxSnHBqpwaXc_Q&utm_source=copy-link&pi=jnfBDv_EThC3H"
         target="_blank"
         rel="noopener noreferrer"
         style={{
