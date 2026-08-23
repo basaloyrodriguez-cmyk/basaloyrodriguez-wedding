@@ -8,7 +8,7 @@ const EVENTOS = [
   {
     fecha: 'Jueves 8 de octubre',
     titulo: 'Adoración Eucarística',
-    lugar: 'Parroquia Santa Eduviges',
+    lugar: 'Parroquia San Lucas',
     hora: '8:00 PM',
     icon: calizIcon,
   },
@@ -57,22 +57,19 @@ export function ItineraryTimeline() {
           transition={{ duration: 0.6, delay: i * 0.05 }}
           style={{ position: 'relative', paddingBottom: i < EVENTOS.length - 1 ? '3rem' : 0 }}
         >
-          <div style={{
-            position: 'absolute',
-            left: '-3.5rem',
-            top: 0,
-            width: '2.5rem',
-            height: '2.5rem',
-            borderRadius: '50%',
-            background: 'var(--clr-white-pure)',
-            border: '2px solid var(--clr-navy)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1
-          }}>
-            <img src={ev.icon} alt="" style={{ width: '1.4rem', height: '1.4rem', objectFit: 'contain' }} />
-          </div>
+          <img
+            src={ev.icon}
+            alt=""
+            style={{
+              position: 'absolute',
+              left: '-3.35rem',
+              top: '-0.1rem',
+              width: '2.2rem',
+              height: '2.2rem',
+              objectFit: 'contain',
+              zIndex: 1
+            }}
+          />
 
           <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--clr-text-muted)', marginBottom: '0.25rem' }}>
             {ev.fecha}

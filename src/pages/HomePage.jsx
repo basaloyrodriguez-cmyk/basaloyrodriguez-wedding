@@ -211,7 +211,7 @@ export function HomePage() {
           }}>
             {/* Instagram */}
             <a
-              href="https://instagram.com/basalorodriguez"
+              href="https://instagram.com/basalo_rodriguez"
               target="_blank"
               rel="noopener noreferrer"
               style={{
