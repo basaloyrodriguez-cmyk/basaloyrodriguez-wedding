@@ -63,14 +63,14 @@ export function AsientosPage() {
                 <div style={{ background: 'var(--clr-light-blue)', padding: '1rem 2rem', borderRadius: 'var(--radius-sm)', display: 'inline-block', marginTop: '1rem' }}>
                   <p style={{ fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--clr-text-muted)' }}>Mesa asignada</p>
                   <p style={{ fontSize: '2rem', color: 'var(--clr-navy)', fontFamily: 'var(--font-serif)', fontWeight: 'bold' }}>
-                    {guest.mesa ? `Mesa ${guest.mesa}` : 'Por definir al ingresar al salón'}
+                    {guest.mesa ? `Mesa ${guest.mesa}` : 'Por definir'}
                   </p>
                 </div>
               </div>
             ) : (
               <div>
                 <p style={{ color: 'var(--clr-text-muted)', fontSize: '1.1rem' }}>
-                  Los números de mesa serán asignados por la recepción a la entrada del evento.
+                  Los números de mesa se asignarán próximamente y aparecerán aquí, en tu invitación.
                 </p>
               </div>
             )}
@@ -92,7 +92,7 @@ export function AsientosPage() {
           >
             <Info size={24} style={{ color: 'var(--clr-navy)', flexShrink: 0, marginTop: '0.2rem' }} />
             <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.95rem', lineHeight: '1.6' }}>
-              En la entrada del salón contará con un panel indicativo de protocolo (Seating Chart) y anfitriones que le acompañarán a su mesa.
+              Tu mesa será asignada y comunicada a través de esta invitación, no de manera presencial en el salón.
             </p>
           </motion.div>
         </div>
