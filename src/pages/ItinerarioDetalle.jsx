@@ -1,41 +1,41 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Cross, Gem, Wine, Bird } from 'lucide-react';
 import { NavBar } from '../components/ui/NavBar';
 import { Footer } from '../components/Footer';
 import { BotanicalCorners, SectionSeparator } from '../components/ui/Decorations';
+import calizIcon from '../assets/caliz.png';
+import anillosIcon from '../assets/anillos.png';
+import copasIcon from '../assets/copas.png';
+import palomaIcon from '../assets/paloma.png';
 
-// TODO(iconos pendientes): estos íconos de lucide-react son placeholders.
-// El usuario subirá los íconos reales (extraídos de itinerario.png o nuevos)
-// para reemplazar Cross/Gem/Wine/Bird abajo.
 const EVENTOS = [
   {
     fecha: 'Jueves 8 de octubre',
     titulo: 'Adoración Eucarística',
     lugar: 'Parroquia Santa Eduviges',
     hora: '8:00 PM',
-    Icon: Cross,
+    icon: calizIcon,
   },
   {
     fecha: 'Sábado 10 de octubre',
     titulo: 'Ceremonia Eclesial',
     lugar: 'Parroquia San Francisco de Asís de La Caleta',
     hora: '3:00 PM',
-    Icon: Gem,
+    icon: anillosIcon,
   },
   {
     fecha: 'Sábado 10 de octubre',
     titulo: 'Recepción',
     lugar: 'Hotel JW Marriot',
     hora: '5:30 PM',
-    Icon: Wine,
+    icon: copasIcon,
   },
   {
     fecha: 'Domingo 11 de octubre',
     titulo: 'Misa Dominical',
     lugar: 'Santuario Nacional',
     hora: '4:00 PM',
-    Icon: Bird,
+    icon: palomaIcon,
   },
 ];
 
@@ -104,7 +104,7 @@ export function ItinerarioDetalle() {
                 justifyContent: 'center',
                 zIndex: 1
               }}>
-                <ev.Icon size={20} color="var(--clr-navy)" strokeWidth={1.5} />
+                <img src={ev.icon} alt="" style={{ width: '1.4rem', height: '1.4rem', objectFit: 'contain' }} />
               </div>
 
               <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--clr-text-muted)', marginBottom: '0.25rem' }}>
