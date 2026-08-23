@@ -17,11 +17,14 @@ export function RSVPSection({ guest, companions }) {
     companions.filter(c => c.asistira === true).map(c => c.id)
   );
   const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const firstName = guest.nombre.split(' ')[0];
   const hasCompanions = companions.length > 0;
+  const needsEmail = !guest.correo;
+  const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
   const handleChoice = (choice) => {
     setAttending(choice);
@@ -63,14 +66,22 @@ export function RSVPSection({ guest, companions }) {
   };
 
   const handleSubmit = async () => {
+    if (attending && needsEmail && !isValidEmail(email)) {
+      setError('Por favor, escribe un correo electrónico válido para poder enviarte la confirmación.');
+      return;
+    }
+
     setIsSubmitting(true);
     setError('');
+
+    const correoNuevo = attending && needsEmail ? email.trim() : null;
 
     try {
       const { error: guestError } = await supabase
         .from('invitados')
         .update({
           asistira: attending,
+          ...(correoNuevo ? { correo: correoNuevo } : {}),
           updated_at: new Date().toISOString(),
         })
         .eq('id', guest.id);
@@ -92,9 +103,10 @@ export function RSVPSection({ guest, companions }) {
 
       if (attending) {
         const attendeesToEmail = [];
-        
-        if (guest.correo) {
-          attendeesToEmail.push({ id: guest.id, nombre: guest.nombre.split(' ')[0], correo: guest.correo });
+        const guestCorreo = guest.correo || correoNuevo;
+
+        if (guestCorreo) {
+          attendeesToEmail.push({ id: guest.id, nombre: guest.nombre.split(' ')[0], correo: guestCorreo });
         }
 
         if (hasCompanions) {
@@ -234,6 +246,34 @@ export function RSVPSection({ guest, companions }) {
                       );
                     })}
                   </div>
+                </div>
+              )}
+
+              {attending && needsEmail && (
+                <div style={{ marginBottom: '2.5rem' }}>
+                  <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Tu correo electrónico
+                  </p>
+                  <p style={{ color: 'var(--clr-text-faint)', fontSize: '0.8rem', marginBottom: '1rem', fontStyle: 'italic' }}>
+                    Lo necesitamos para enviarte la confirmación.
+                  </p>
+                  <input
+                    type="email"
+                    placeholder="tucorreo@ejemplo.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '1rem',
+                      border: '1px solid rgba(2, 47, 99, 0.2)',
+                      borderRadius: 'var(--radius-sm)',
+                      fontFamily: 'var(--font-serif)',
+                      fontSize: '1.1rem',
+                      color: 'var(--clr-navy)',
+                      outline: 'none',
+                      background: 'transparent'
+                    }}
+                  />
                 </div>
               )}
 
