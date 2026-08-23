@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../lib/supabase';
 import { WEDDING_DATA } from '../constants/weddingData';
 import { GuestSearchInput } from './ui/GuestSearchInput';
@@ -9,12 +9,21 @@ export function CoverPage({ onEnter }) {
   const [step, setStep] = useState('hero'); // 'hero' | 'search' | 'opening'
   const [selectedGuest, setSelectedGuest] = useState(null);
   const [error, setError] = useState('');
+  const searchInputRef = useRef(null);
 
   const handleStart = () => setStep('search');
 
   const handleGuestSelect = (guest) => {
     setSelectedGuest(guest);
     setError('');
+  };
+
+  const handlePrimaryAction = () => {
+    if (selectedGuest) {
+      handleOpen();
+    } else {
+      searchInputRef.current?.submit();
+    }
   };
 
   const handleOpen = async () => {
@@ -143,6 +152,7 @@ export function CoverPage({ onEnter }) {
             <p style={{ color: 'var(--clr-text-faint)', fontSize: '0.8rem', marginBottom: '2rem', fontStyle: 'italic' }}>Tal y como te escribieron al contactarte</p>
             
             <GuestSearchInput
+              ref={searchInputRef}
               onSelect={handleGuestSelect}
               onClear={() => setSelectedGuest(null)}
               disabled={false}
@@ -150,21 +160,20 @@ export function CoverPage({ onEnter }) {
 
             <AnimatePresence>
               {selectedGuest && (
-                <motion.div
+                <motion.p
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  style={{ marginTop: '2rem', overflow: 'hidden' }}
+                  style={{ color: 'var(--clr-olive)', fontSize: '0.9rem', marginTop: '1.5rem', fontStyle: 'italic', overflow: 'hidden' }}
                 >
-                  <p style={{ color: 'var(--clr-olive)', fontSize: '0.9rem', marginBottom: '1rem', fontStyle: 'italic' }}>
-                    Hola, {selectedGuest.nombre}.
-                  </p>
-                  <button className="btn btn--primary" style={{ width: '100%' }} onClick={handleOpen}>
-                    Abrir invitación
-                  </button>
-                </motion.div>
+                  Hola, {selectedGuest.nombre}.
+                </motion.p>
               )}
             </AnimatePresence>
+
+            <button className="btn btn--primary" style={{ width: '100%', marginTop: '2rem' }} onClick={handlePrimaryAction}>
+              Abrir invitación
+            </button>
 
             {error && <p style={{ color: 'var(--clr-error)', marginTop: '1rem', fontSize: '0.85rem' }}>{error}</p>}
           </motion.div>

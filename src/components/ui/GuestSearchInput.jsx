@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { Search, Loader2 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { buildIndex, findExactGuest } from '../../utils/guestSearch';
 
-export function GuestSearchInput({ onSelect, onClear, disabled = false }) {
+export const GuestSearchInput = forwardRef(function GuestSearchInput({ onSelect, onClear, disabled = false }, ref) {
   const [query, setQuery]         = useState('');
   const [index, setIndex]         = useState(null);
   const [loadError, setLoadError] = useState(false);
@@ -45,8 +45,7 @@ export function GuestSearchInput({ onSelect, onClear, disabled = false }) {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const runSearch = async () => {
     if (!index || isChecking) return;
 
     const match = findExactGuest(index, query);
@@ -69,6 +68,15 @@ export function GuestSearchInput({ onSelect, onClear, disabled = false }) {
     setIsChecking(false);
     onSelect(data ?? match);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    runSearch();
+  };
+
+  // Permite que el botón "Abrir invitación" de CoverPage (siempre visible,
+  // fuera de este componente) dispare la misma búsqueda que Enter/el ícono.
+  useImperativeHandle(ref, () => ({ submit: runSearch }));
 
   return (
     <div style={{ width: '100%' }}>
@@ -105,4 +113,4 @@ export function GuestSearchInput({ onSelect, onClear, disabled = false }) {
       )}
     </div>
   );
-}
+});
