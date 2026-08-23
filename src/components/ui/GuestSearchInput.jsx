@@ -46,12 +46,12 @@ export const GuestSearchInput = forwardRef(function GuestSearchInput({ onSelect,
   };
 
   const runSearch = async () => {
-    if (!index || isChecking) return;
+    if (!index || isChecking) return null;
 
     const match = findExactGuest(index, query);
     if (!match) {
       setNotFound(true);
-      return;
+      return null;
     }
 
     setNotFound(false);
@@ -66,7 +66,9 @@ export const GuestSearchInput = forwardRef(function GuestSearchInput({ onSelect,
       .single();
 
     setIsChecking(false);
-    onSelect(data ?? match);
+    const guest = data ?? match;
+    onSelect(guest);
+    return guest;
   };
 
   const handleSubmit = (e) => {

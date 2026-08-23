@@ -18,16 +18,9 @@ export function CoverPage({ onEnter }) {
     setError('');
   };
 
-  const handlePrimaryAction = () => {
-    if (selectedGuest) {
-      handleOpen();
-    } else {
-      searchInputRef.current?.submit();
-    }
-  };
-
-  const handleOpen = async () => {
-    if (!selectedGuest) return;
+  const handleOpen = async (guestOverride) => {
+    const guest = guestOverride ?? selectedGuest;
+    if (!guest) return;
     setStep('opening');
     setError('');
 
@@ -35,7 +28,7 @@ export function CoverPage({ onEnter }) {
       const { data: parentescos } = await supabase
         .from('parentesco_invitados')
         .select('invitado_acompanante_id')
-        .eq('invitado_principal_id', selectedGuest.id);
+        .eq('invitado_principal_id', guest.id);
 
       let companions = [];
       if (parentescos && parentescos.length > 0) {
@@ -51,14 +44,14 @@ export function CoverPage({ onEnter }) {
       const { data: guestRoles } = await supabase
         .from('invitado_roles')
         .select('rol_id')
-        .eq('invitado_id', selectedGuest.id);
+        .eq('invitado_id', guest.id);
 
       if (guestRoles && guestRoles.length > 0) {
         const { data: messages } = await supabase
           .from('mensajes_rol')
           .select('*')
           .in('rol_id', guestRoles.map((r) => r.rol_id));
-        
+
         if (messages && messages.length > 0) {
           specialMessage = messages[0];
         }
@@ -66,13 +59,24 @@ export function CoverPage({ onEnter }) {
 
       // Wait 2.5 seconds total for the envelope animation before continuing
       setTimeout(() => {
-        onEnter(selectedGuest, companions, specialMessage);
+        onEnter(guest, companions, specialMessage);
       }, 2500);
 
     } catch (err) {
       console.error('Error abriendo invitación:', err);
       setError('Hubo un problema de conexión. Por favor intenta de nuevo.');
       setStep('search');
+    }
+  };
+
+  const handlePrimaryAction = async () => {
+    if (selectedGuest) {
+      handleOpen();
+      return;
+    }
+    const guest = await searchInputRef.current?.submit();
+    if (guest) {
+      handleOpen(guest);
     }
   };
 

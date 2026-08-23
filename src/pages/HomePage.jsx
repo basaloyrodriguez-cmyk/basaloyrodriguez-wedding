@@ -12,7 +12,8 @@ import { AccommodationsModal } from '../components/AccommodationsModal';
 import { PlaylistSuggestions } from '../components/PlaylistSuggestions';
 import { motion } from 'framer-motion';
 import { useGuest } from '../context/GuestContext';
-import { HelpCircle, Calendar, ArrowRight } from 'lucide-react';
+import { HelpCircle, Calendar } from 'lucide-react';
+import { ItineraryTimeline } from '../components/ItineraryTimeline';
 
 function InstagramIcon({ size = 32, color = "#e1306c" }) {
   return (
@@ -24,7 +25,6 @@ function InstagramIcon({ size = 32, color = "#e1306c" }) {
   );
 }
 
-import itinerarioImg from '../assets/itinerario.png';
 import nicePicUs from '../assets/nice_pic_us.jpg';
 import img0878 from '../assets/IMG_0878.jpg';
 import weddingLast from '../assets/wedding_last.jpg';
@@ -141,31 +141,17 @@ export function HomePage() {
 
         <SectionSeparator margin="1.75rem 0" />
 
-        {/* 5. Foto del Itinerario (extremo a extremo) con Botón Ver Más */}
+        {/* 5. Itinerario */}
         <motion.div
           id="itinerario"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          style={{ paddingTop: '2rem', textAlign: 'center' }}
+          style={{ paddingTop: '2rem' }}
         >
-          <div className="full-bleed" style={{ backgroundColor: '#fcfcfc', overflow: 'hidden' }}>
-            <Link to="/itinerario" style={{ display: 'block' }}>
-              <motion.img
-                src={itinerarioImg}
-                alt="Itinerario del día — toca para ver el detalle"
-                whileHover={{ scale: 1.01 }}
-                transition={{ duration: 0.3 }}
-                style={{ width: '100%', cursor: 'pointer', display: 'block' }}
-              />
-            </Link>
-          </div>
-          <div style={{ marginTop: '1.5rem' }}>
-            <Link to="/itinerario" className="btn btn--primary" style={{ gap: '0.5rem' }}>
-              Ver Itinerario Completo <ArrowRight size={18} />
-            </Link>
-          </div>
+          <h2 className="script-accent text-center mb-2">Itinerario</h2>
+          <ItineraryTimeline />
         </motion.div>
 
         <SectionSeparator margin="1.75rem 0" />

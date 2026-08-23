@@ -2,7 +2,6 @@ import { Routes, Route } from 'react-router-dom';
 import { GuestProvider } from './context/GuestContext';
 import { ScrollToTop } from './components/ScrollToTop';
 import { HomePage } from './pages/HomePage';
-import { ItinerarioDetalle } from './pages/ItinerarioDetalle';
 import { VestimentaPage } from './pages/VestimentaPage';
 import { HospedajePage } from './pages/HospedajePage';
 import { AsientosPage } from './pages/AsientosPage';
@@ -15,7 +14,6 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/itinerario" element={<ItinerarioDetalle />} />
         <Route path="/vestimenta" element={<VestimentaPage />} />
         <Route path="/hospedaje" element={<HospedajePage />} />
         <Route path="/asientos" element={<AsientosPage />} />
