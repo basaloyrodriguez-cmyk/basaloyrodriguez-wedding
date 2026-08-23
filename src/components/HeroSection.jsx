@@ -1,11 +1,7 @@
 import { WEDDING_DATA } from '../constants/weddingData';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-// TODO(asset pendiente): reemplazar por un GIF con menos "relleno" azul
-// arriba/abajo del sobre, para que el scroll hacia el resto de la página
-// quede implícito. Sustituir openLetterGif cuando el usuario entregue el
-// archivo nuevo — sin más cambios de código.
-import openLetterGif from '../assets/open_letter.gif';
+import openLetterVideo from '../assets/open_letter.mp4';
 
 export function HeroSection() {
   return (
@@ -17,9 +13,13 @@ export function HeroSection() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
       >
-        <img
-          src={openLetterGif}
-          alt="Abriendo la invitación"
+        <video
+          src={openLetterVideo}
+          autoPlay
+          loop
+          muted
+          playsInline
+          aria-label="Abriendo la invitación"
         />
 
         <motion.div
