@@ -71,12 +71,12 @@ export function ItineraryTimeline() {
             }}
           />
 
-          <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--clr-text-muted)', marginBottom: '0.25rem' }}>
+          <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.8rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--clr-text-muted)', marginBottom: '0.25rem' }}>
             {ev.fecha}
           </p>
           <h3 className="script-accent" style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>{ev.titulo}</h3>
-          <p style={{ color: 'var(--clr-navy)', fontFamily: 'var(--font-serif)', fontSize: '1.1rem' }}>{ev.lugar}</p>
-          <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.95rem' }}>{ev.hora}</p>
+          <p style={{ color: 'var(--clr-navy)', fontFamily: 'var(--font-serif)', fontSize: '1.1rem', fontWeight: 700 }}>{ev.lugar}</p>
+          <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.95rem', fontWeight: 700 }}>{ev.hora}</p>
         </motion.div>
       ))}
     </div>
