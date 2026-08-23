@@ -27,6 +27,7 @@ function InstagramIcon({ size = 32, color = "#e1306c" }) {
 import itinerarioImg from '../assets/itinerario.png';
 import nicePicUs from '../assets/nice_pic_us.jpg';
 import img0878 from '../assets/IMG_0878.jpg';
+import weddingLast from '../assets/wedding_last.jpg';
 // TODO(asset pendiente): el usuario reemplazará esta imagen de la
 // invitación oficial cuando la entregue — sin más cambios de código.
 import invitationImg from '../assets/invitation.png';
@@ -173,6 +174,29 @@ export function HomePage() {
         <div id="rsvp" style={{ paddingTop: '2rem', marginBottom: '2.5rem' }}>
           <RSVPSection guest={guest} companions={companions} />
         </div>
+
+        {/* 6b. Foto final antes de Información Adicional */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          style={{ textAlign: 'center', marginBottom: '2.5rem' }}
+        >
+          <img
+            src={weddingLast}
+            alt="Juan & Andrea"
+            style={{
+              width: '100%',
+              maxWidth: '440px',
+              height: 'auto',
+              display: 'block',
+              margin: '0 auto',
+              borderRadius: 'var(--radius-sm)',
+              boxShadow: 'var(--shadow-md)'
+            }}
+          />
+        </motion.div>
       </main>
 
       {/* 7. Información Adicional (Playlist, Instagram, Preguntas Frecuentes) */}
@@ -200,9 +224,8 @@ export function HomePage() {
             gap: '1.5rem'
           }}>
             {/* Instagram */}
-            {/* TODO(pendiente): reemplazar por la URL real de Instagram cuando el usuario la entregue. */}
             <a
-              href="https://instagram.com"
+              href="https://instagram.com/basalorodriguez"
               target="_blank"
               rel="noopener noreferrer"
               style={{

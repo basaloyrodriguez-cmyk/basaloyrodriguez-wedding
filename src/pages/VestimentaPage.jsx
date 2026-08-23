@@ -38,7 +38,7 @@ export function VestimentaPage() {
             style={{ width: '90px', height: 'auto', margin: '0 auto 1rem', display: 'block' }}
           />
           <h1 className="title-hero" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '0.5rem' }}>Código de Vestimenta</h1>
-          <p className="script-accent" style={{ fontSize: '2rem', color: 'var(--clr-olive)' }}>Elegante / Formal</p>
+          <p className="script-accent" style={{ fontSize: '2rem', color: 'var(--clr-olive)' }}>Formal o Gala</p>
         </motion.div>
 
         <SectionSeparator />

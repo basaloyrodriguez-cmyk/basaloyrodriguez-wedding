@@ -47,7 +47,7 @@ export function RegalosPage() {
           >
             <Heart size={40} style={{ color: 'var(--clr-navy)' }} />
             <p style={{ color: 'var(--clr-text-muted)', fontSize: '1.1rem', lineHeight: '1.8', maxWidth: '600px' }}>
-              Lo más importante para nosotros es contar con tu presencia en este día tan especial. Si deseas realizarnos un detalle adicional, agradecemos tu contribución a nuestra Luna de Miel o inicio de hogar.
+              Lo más importante para nosotros es contar con tu presencia en este día tan especial. Si deseas realizarnos un detalle adicional, agradecemos tu contribución al inicio de nuestro hogar.
             </p>
           </motion.div>
 

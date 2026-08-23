@@ -7,23 +7,25 @@ import confetti from 'canvas-confetti';
 const STEP = {
   PROMPT: 'prompt',
   FORM: 'form',
+  ALREADY: 'already',
   SUCCESS: 'success',
 };
 
 export function RSVPSection({ guest, companions }) {
-  const [step, setStep] = useState(STEP.PROMPT);
-  const [attending, setAttending] = useState(null);
-  const [selectedCompanions, setSelectedCompanions] = useState(() => 
+  const hasResponded = guest.asistira !== null && guest.asistira !== undefined;
+  const [step, setStep] = useState(hasResponded ? STEP.ALREADY : STEP.PROMPT);
+  const [attending, setAttending] = useState(hasResponded ? guest.asistira : null);
+  const [selectedCompanions, setSelectedCompanions] = useState(() =>
     companions.filter(c => c.asistira === true).map(c => c.id)
   );
   const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(guest.correo || '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const firstName = guest.nombre.split(' ')[0];
   const hasCompanions = companions.length > 0;
-  const needsEmail = !guest.correo;
+  const attendingCompanions = companions.filter(c => c.asistira === true);
   const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
   const handleChoice = (choice) => {
@@ -66,7 +68,7 @@ export function RSVPSection({ guest, companions }) {
   };
 
   const handleSubmit = async () => {
-    if (attending && needsEmail && !isValidEmail(email)) {
+    if (attending && !isValidEmail(email)) {
       setError('Por favor, escribe un correo electrónico válido para poder enviarte la confirmación.');
       return;
     }
@@ -74,14 +76,14 @@ export function RSVPSection({ guest, companions }) {
     setIsSubmitting(true);
     setError('');
 
-    const correoNuevo = attending && needsEmail ? email.trim() : null;
+    const correoActualizado = attending ? email.trim() : null;
 
     try {
       const { error: guestError } = await supabase
         .from('invitados')
         .update({
           asistira: attending,
-          ...(correoNuevo ? { correo: correoNuevo } : {}),
+          ...(correoActualizado ? { correo: correoActualizado } : {}),
           updated_at: new Date().toISOString(),
         })
         .eq('id', guest.id);
@@ -103,10 +105,9 @@ export function RSVPSection({ guest, companions }) {
 
       if (attending) {
         const attendeesToEmail = [];
-        const guestCorreo = guest.correo || correoNuevo;
 
-        if (guestCorreo) {
-          attendeesToEmail.push({ id: guest.id, nombre: guest.nombre.split(' ')[0], correo: guestCorreo });
+        if (correoActualizado) {
+          attendeesToEmail.push({ id: guest.id, nombre: guest.nombre.split(' ')[0], correo: correoActualizado });
         }
 
         if (hasCompanions) {
@@ -170,6 +171,35 @@ export function RSVPSection({ guest, companions }) {
             </motion.div>
           )}
 
+          {step === STEP.ALREADY && (
+            <motion.div
+              key="already"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h3 className="script-accent" style={{ fontSize: '2.75rem', marginBottom: '1rem' }}>
+                {attending ? '¡Ya nos confirmaste!' : 'Gracias por avisarnos'}
+              </h3>
+              <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', color: 'var(--clr-navy)', marginBottom: attending && attendingCompanions.length > 0 ? '1.5rem' : '2.5rem' }}>
+                {attending
+                  ? 'Ya tenemos registrada tu asistencia.'
+                  : 'Ya tenemos registrado que no podrás acompañarnos.'}
+              </p>
+
+              {attending && attendingCompanions.length > 0 && (
+                <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.95rem', marginBottom: '2.5rem' }}>
+                  Junto con: {attendingCompanions.map(c => `${c.nombre} ${c.apellido}`).join(', ')}
+                </p>
+              )}
+
+              <button className="btn btn--secondary" style={{ width: '100%' }} onClick={() => setStep(STEP.PROMPT)}>
+                Cambiar mi respuesta
+              </button>
+            </motion.div>
+          )}
+
           {step === STEP.FORM && (
             <motion.div
               key="form"
@@ -179,8 +209,8 @@ export function RSVPSection({ guest, companions }) {
               transition={{ duration: 0.5 }}
               style={{ textAlign: 'left' }}
             >
-              <button 
-                onClick={() => setStep(STEP.PROMPT)}
+              <button
+                onClick={() => setStep(hasResponded ? STEP.ALREADY : STEP.PROMPT)}
                 style={{ color: 'var(--clr-text-faint)', fontSize: '0.9rem', marginBottom: '2rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}
               >
                 ← Volver
@@ -249,17 +279,11 @@ export function RSVPSection({ guest, companions }) {
                 </div>
               )}
 
-              {attending && needsEmail && (
+              {attending && (
                 <div style={{ marginBottom: '2.5rem' }}>
-                  <p style={{ color: 'var(--clr-text-muted)', fontSize: '0.9rem', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Tu correo electrónico
-                  </p>
-                  <p style={{ color: 'var(--clr-text-faint)', fontSize: '0.8rem', marginBottom: '1rem', fontStyle: 'italic' }}>
-                    Lo necesitamos para enviarte la confirmación.
-                  </p>
                   <input
                     type="email"
-                    placeholder="tucorreo@ejemplo.com"
+                    placeholder="Tu correo electrónico (para enviarte la confirmación)"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     style={{
