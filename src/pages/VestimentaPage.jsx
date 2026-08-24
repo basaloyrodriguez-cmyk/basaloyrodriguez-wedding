@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { NavBar } from '../components/ui/NavBar';
 import { Footer } from '../components/Footer';
 import { BotanicalCorners, SectionSeparator } from '../components/ui/Decorations';
-import { Shirt, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
+import { Shirt, Sparkles, AlertCircle, ExternalLink, Palette } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import dressLogo from '../assets/dress_logo.png';
 
@@ -74,6 +74,26 @@ export function VestimentaPage() {
             </div>
             <p style={{ color: 'var(--clr-text-muted)', lineHeight: '1.8' }}>
               Tuxedo / Esmoquin o Traje oscuro formal completo con corbata o corbatín.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{
+              padding: '1.5rem',
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--clr-light-blue)',
+              border: '1px solid rgba(2, 47, 99, 0.1)',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '1rem'
+            }}
+          >
+            <Palette size={24} style={{ color: 'var(--clr-navy)', flexShrink: 0, marginTop: '0.2rem' }} />
+            <p style={{ color: 'var(--clr-navy)', fontSize: '0.95rem', lineHeight: '1.6' }}>
+              El color del cortejo es azul navy.
             </p>
           </motion.div>
 
