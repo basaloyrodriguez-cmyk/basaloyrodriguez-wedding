@@ -66,8 +66,8 @@ export function RegalosPage() {
             <div style={{ background: 'var(--clr-light-blue)', padding: '1.5rem', borderRadius: 'var(--radius-sm)', display: 'flex', flexDirection: 'column', gap: '0.8rem', fontSize: '0.95rem' }}>
               <div>
                 <strong>Banco General (Panamá)</strong>
-                <p style={{ color: 'var(--clr-text-muted)' }}>Cuenta de Ahorros: 04-72-99-XXXXXX-X</p>
-                <p style={{ color: 'var(--clr-text-muted)' }}>A nombre de: Juan Basalo / Maria Rodríguez</p>
+                <p style={{ color: 'var(--clr-text-muted)' }}>Cuenta de Ahorros: 04-72-38-062756-0</p>
+                <p style={{ color: 'var(--clr-text-muted)' }}>A nombre de: Maria Andrea Rodríguez</p>
               </div>
               <hr style={{ borderColor: 'rgba(2, 47, 99, 0.1)', margin: '0.5rem 0' }} />
               <div>
