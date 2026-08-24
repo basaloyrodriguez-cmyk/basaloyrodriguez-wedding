@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { NavBar } from '../components/ui/NavBar';
 import { Footer } from '../components/Footer';
 import { BotanicalCorners, SectionSeparator } from '../components/ui/Decorations';
-import { Shirt, Sparkles, AlertCircle } from 'lucide-react';
+import { Shirt, Sparkles, AlertCircle, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import dressLogo from '../assets/dress_logo.png';
 
@@ -96,6 +96,18 @@ export function VestimentaPage() {
               Tanto la ceremonia como la recepción se realizarán en recintos climatizados con aire acondicionado.
             </p>
           </motion.div>
+
+          <div style={{ textAlign: 'center' }}>
+            <a
+              href="https://pin.it/3bTbQGsht"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn--secondary"
+              style={{ gap: '0.5rem' }}
+            >
+              Ver Tablero de Inspiración <ExternalLink size={18} />
+            </a>
+          </div>
         </div>
       </main>
 
